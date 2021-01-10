@@ -30,4 +30,13 @@ describe Phelix do
       => 4
     }.tests
   end
+
+  it "can construct 'ranges'" do
+    {
+      "2 5 .." \
+      => [2,3,4,5],
+      "5 2 .." \
+      => [5,4,3,2]
+    }.tests
+  end
 end
