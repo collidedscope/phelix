@@ -15,7 +15,7 @@ class Phelix
 
   defb "sort" {
     enu = get Array
-    tmp = [] of Value
+    tmp = Array(Value).new enu.size
     if enu.all? &.class.== String
       enu.map(&.as String).sort.each { |e| tmp << e }
     elsif enu.all? &.class.== Int32
@@ -49,10 +49,9 @@ class Phelix
 
   defb "zip" {
     b, a = get Array, Array
-    tmp = [] of Value
-    a.zip(b) { |c, d|
-      tmp << [c.as(Value), d.as(Value)]
-    }
+    abort "(zip) length mismatch" unless a.size == b.size
+    tmp = Array(Value).new a.size
+    a.zip(b) { |c, d| tmp << [c.as Value, d.as Value] }
     s << tmp
   }
 
