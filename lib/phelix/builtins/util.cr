@@ -14,13 +14,13 @@ class Phelix
   # range [a b] => [a a+1 ... b]
   defb ".." {
     n, m = get Int32, Int32
+    tmp = Array(Value).new (m - n).abs + 1
     if m < n
-      s << Range.new(m, n).map &.as Value
+      m.upto(n) { |e| tmp << e }
     else
-      tmp = Array(Value).new m - n + 1
       m.downto(n) { |e| tmp << e }
-      s << tmp
     end
+    s << tmp
   }
 
   defb "gets" {
