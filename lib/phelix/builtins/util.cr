@@ -17,6 +17,14 @@ class Phelix
     s << Range.new(m, n).map &.as Value
   }
 
+  defb "gets" {
+    if t = gets
+      s << t
+    else
+      s << false
+    end
+  }
+
   defb "f/read" {
     s << File.read get String
   }
