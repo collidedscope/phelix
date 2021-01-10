@@ -4,9 +4,15 @@ class Phelix
     s.replace (v ? c : a).as(Phelix).evaluate(s)
   }
 
-  defb "until" {
-    body, test = s.pop.as(Phelix), s.pop.as(Phelix)
+  defb "while" {
+    body, test = get Phelix, Phelix
+    while test.evaluate(s).pop
+      s.replace body.evaluate(s)
+    end
+  }
 
+  defb "until" {
+    body, test = get Phelix, Phelix
     until test.evaluate(s).pop
       s.replace body.evaluate(s)
     end
