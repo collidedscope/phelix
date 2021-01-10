@@ -17,4 +17,8 @@ class Phelix
       s.replace body.evaluate(s)
     end
   }
+
+  defb "call" {
+    get(Phelix).evaluate s
+  }
 end
