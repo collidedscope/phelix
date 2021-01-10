@@ -4,6 +4,14 @@ class Phelix
     s.replace (v ? c : a).as(Phelix).evaluate(s)
   }
 
+  defb "cond" {
+    n = get Int32
+    arms = Array(Tuple(Phelix, Phelix)).new(n) { get Phelix, Phelix }
+    arms.reverse_each do |fn, cond|
+      break fn.evaluate s if cond.evaluate(s.dup).last
+    end
+  }
+
   defb "while" {
     body, test = get Phelix, Phelix
     while test.evaluate(s).pop
