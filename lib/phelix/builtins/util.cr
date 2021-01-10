@@ -25,6 +25,10 @@ class Phelix
     end
   }
 
+  defb "argv" {
+    s << ARGV.map &.as Value
+  }
+
   defb "f/read" {
     s << File.read get String
   }
