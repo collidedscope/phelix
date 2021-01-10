@@ -4,6 +4,10 @@ class Phelix
     s << h.includes? n
   }
 
+  defb "s/up" {
+    s << get(String).upcase
+  }
+
   defb "s/split" {
     d, t = get String, String
     o = [] of Value
