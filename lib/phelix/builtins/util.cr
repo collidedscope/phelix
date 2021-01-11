@@ -23,6 +23,16 @@ class Phelix
     s << tmp
   }
 
+  defb "++" {
+    b, a = get String | Array(Value), String | Array(Value)
+    case a
+    when String
+      s << a.as(String) + b.as(String)
+    else
+      s << a.as(Array(Value)) + b.as(Array(Value))
+    end
+  }
+
   defb "gets" {
     if t = gets
       s << t
