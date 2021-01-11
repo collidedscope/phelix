@@ -8,6 +8,10 @@ class Phelix
     s << get(String).upcase
   }
 
+  defb "s/dn" {
+    s << get(String).downcase
+  }
+
   defb "s/split" {
     d, t = get String, String
     o = [] of Value
