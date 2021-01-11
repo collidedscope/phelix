@@ -1,0 +1,4 @@
+anas: (s/bytes sort) map uniq len 1 = ;
+
+["allergy" "gallery" "largely" "regally"] anas .
+["lobster" "holster"] anas .
