@@ -12,9 +12,6 @@ class Phelix
   @@env = {} of String => Phelix
   @tokens = [] of String
   @insns = [] of Insn
-  @stack = [] of Value
-
-  getter stack
 
   def initialize(@tokens)
     parse
@@ -62,7 +59,7 @@ class Phelix
       end
     end
 
-    @stack = stack
+    stack
   end
 
   def self.tokenize(src)
