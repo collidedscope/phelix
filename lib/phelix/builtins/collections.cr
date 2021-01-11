@@ -4,12 +4,12 @@ class Phelix
   defb "[]" { s << s.pop get(BigInt).to_i32 }
 
   defb "<<" {
-    n, e = get BigInt, Array
+    n, e = get Value, Array
     s << (e.as(Array) << n)
   }
 
   defb ">>" {
-    e, n = get Array, BigInt
+    e, n = get Array, Value
     s << (e.as(Array) << n)
   }
 
