@@ -2,6 +2,10 @@ class Phelix
   # inspect [a] => [] + IO
   defb "." { p s.pop }
 
+  defb "eval" {
+    Phelix.new(Phelix.tokenize get String).evaluate s
+  }
+
   defb "len" {
     case v = s.pop
     when Array, String
