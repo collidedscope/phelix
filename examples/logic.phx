@@ -1,0 +1,18 @@
+true: 0 0 = ;
+false: 0 1 = ;
+
+not: 'false 'true if ;
+eq: ('true 'false if) 'not if ;
+xor: eq not ;
+and: () (pop false) if ;
+or: (pop true) () if ;
+
+[false false]
+[false true]
+[true false]
+[true true] 4 []
+
+"and" . dup (\ and) map .
+"or"  . dup (\ or)  map .
+"eq"  . dup (\ eq)  map .
+"xor" . dup (\ xor) map .
