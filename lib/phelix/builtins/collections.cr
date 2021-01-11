@@ -55,10 +55,7 @@ class Phelix
     s << tmp
   }
 
-  # defb "uniq" {
-  #   enu = get Array
-  #   tmp = [] of Value
-  #   enu.uniq.each { |e| tmp << e }
-  #   s << tmp
-  # }
+  defb "uniq" {
+    s << get(Array).to_set.map &.as Value
+  }
 end
