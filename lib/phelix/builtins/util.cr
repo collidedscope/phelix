@@ -5,7 +5,7 @@ class Phelix
   defb "len" {
     case v = s.pop
     when Array, String
-      s << v.size
+      s << v.size.to_big_i
     else
       abort "can't len your thing"
     end
@@ -13,7 +13,7 @@ class Phelix
 
   # range [a b] => [a a+1 ... b]
   defb ".." {
-    n, m = get Int32, Int32
+    n, m = get BigInt, BigInt
     tmp = Array(Value).new (m - n).abs + 1
     if m < n
       m.upto(n) { |e| tmp << e }

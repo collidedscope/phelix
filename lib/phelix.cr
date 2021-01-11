@@ -1,10 +1,11 @@
+require "big"
 require "phelix/builtins"
 
 class Phelix
   enum Type
     Num; Str; Fun; Word
   end
-  alias Value = Int32 | String | Bool | Phelix | Array(Value)
+  alias Value = BigInt | String | Bool | Phelix | Array(Value)
 
   record Insn, t : Type, v : Value
 
@@ -34,7 +35,7 @@ class Phelix
       next @@env[tok[0..-2]] = find.call(";") if tok[-1] == ':'
 
       @insns << Insn.new *case
-      when n = tok.to_i? then {Type::Num, n}
+      when n = tok.to_i? then {Type::Num, n.to_big_i}
       when tok[0] == '"' then {Type::Str, tok[1..-2]}
       when tok == "("    then {Type::Fun, find.call ")"}
       else                    {Type::Word, tok}

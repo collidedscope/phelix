@@ -16,12 +16,12 @@ class Phelix
   }
 
   defb "s/slice" {
-    e, b, t = get Int32, Int32, String
+    e, b, t = get BigInt, BigInt, String
     s << t[b..e]
   }
 
   defb "s/bytes" {
     t = get String
-    s << t.bytes.map { |x| x.to_i32.as Value }
+    s << t.bytes.map { |x| x.to_big_i.as Value }
   }
 end

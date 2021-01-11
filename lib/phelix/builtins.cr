@@ -14,10 +14,10 @@ class Phelix
       case a = s.pop
       when Array
         s << a.reduce { |m, n|
-          m.as(Int32) {{op.id}} n.as(Int32)
+          m.as(BigInt) {{op.id}} n.as(BigInt)
         }
-      when Int32
-        s << get(Int32) {{op.id}} a
+      when BigInt
+        s << get(BigInt) {{op.id}} a
       else
         abort "can't #{{{op}}} your #{s}"
       end
@@ -29,10 +29,10 @@ class Phelix
       case a = s.pop
       when Array
         s << a.each_cons(2).all? { |(m, n)|
-          m.as(Int32) {{op.id}} n.as(Int32)
+          m.as(BigInt) {{op.id}} n.as(BigInt)
         }
-      when Int32
-        s << (get(Int32) {{op.id}} a)
+      when BigInt
+        s << (get(BigInt) {{op.id}} a)
       when String
         s << (get(String) {{op.id}} a)
       else

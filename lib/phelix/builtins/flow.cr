@@ -5,7 +5,7 @@ class Phelix
   }
 
   defb "cond" {
-    n = get Int32
+    n = get BigInt
     arms = Array(Tuple(Phelix, Phelix)).new(n) { get Phelix, Phelix }
     arms.reverse_each do |fn, cond|
       break fn.evaluate s if cond.evaluate(s.dup).last

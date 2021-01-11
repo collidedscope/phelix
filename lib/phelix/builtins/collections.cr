@@ -1,15 +1,15 @@
 class Phelix
   # arrayify the top N elements of the stack
   # [e1 ... en N] => [[e1 ... en]]
-  defb "[]" { s << s.pop(get Int32) }
+  defb "[]" { s << s.pop get(BigInt).to_i32 }
 
   defb "<<" {
-    n, e = get Int32, Array
+    n, e = get BigInt, Array
     s << (e.as(Array) << n)
   }
 
   defb ">>" {
-    e, n = get Array, Int32
+    e, n = get Array, BigInt
     s << (e.as(Array) << n)
   }
 
@@ -18,8 +18,8 @@ class Phelix
     tmp = Array(Value).new enu.size
     if enu.all? &.class.== String
       enu.map(&.as String).sort.each { |e| tmp << e }
-    elsif enu.all? &.class.== Int32
-      enu.map(&.as Int32).sort.each { |e| tmp << e }
+    elsif enu.all? &.class.== BigInt
+      enu.map(&.as BigInt).sort.each { |e| tmp << e }
     else
       abort "can't sort heterogeneous array"
     end
@@ -44,7 +44,7 @@ class Phelix
 
   defb "maxby" {
     fn, enu = get Phelix, Array
-    s << enu.max_by { |e| fn.evaluate([e]).last.as Int32 }
+    s << enu.max_by { |e| fn.evaluate([e]).last.as BigInt }
   }
 
   defb "zip" {
