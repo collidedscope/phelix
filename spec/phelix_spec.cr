@@ -39,4 +39,23 @@ describe Phelix do
       => [5,4,3,2]
     }.tests
   end
+
+  it "can branch conditionally" do
+    {
+      %(4 2 % 0 = ("even") ("odd") if) \
+      => "even",
+      %(13 2 % 0 = ("even") ("odd") if) \
+      => "odd",
+    }.tests
+  end
+
+  it "can do many-armed conditionals" do
+    {
+      %(sign: (0 <) ("neg")
+              (0 >) ("pos")
+              (1 1 =) ("zero") 3 cond ;
+        [1 0 -1] 'sign map) \
+      => ["pos", "zero", "neg"]
+    }.tests
+  end
 end
