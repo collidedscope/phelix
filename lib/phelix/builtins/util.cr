@@ -6,6 +6,8 @@ class Phelix
     Phelix.new(Phelix.tokenize get String).evaluate s
   }
 
+  defb "," { p s }
+
   defb "len" {
     case v = s.pop
     when Array, String
