@@ -63,6 +63,10 @@ class Phelix
     stack
   end
 
+  def inspect(io)
+    io << "(#{@tokens.join ' '})"
+  end
+
   def self.tokenize(src)
     src
       .gsub(/#.*/, "")                                      # strip comments
