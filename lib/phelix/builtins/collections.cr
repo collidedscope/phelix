@@ -1,7 +1,30 @@
 class Phelix
-  # arrayify the top N elements of the stack
-  # [e1 ... en N] => [[e1 ... en]]
-  defb "[]" { s << s.pop get(Num).to_i32 }
+  # vectorize the top N elements of the stack
+  # [ e1 ... en N ] => [ [e1 ... en] ]
+  defb "[]" {
+    s << s.pop get(Num).to_i32
+  }
+
+  defb "nth" {
+    n, v = get Num, Vec
+    s << v[n]
+  }
+
+  # mapify the top 2N elements of the stack
+  # [ k1 v1 ... kn vn N ] => [ {k1 v1 ... kn vn} ]
+  defb "{}" {
+    m = Map.new false
+    get(Num).times {
+      k, v = s.pop 2
+      m[k] = v
+    }
+    s << m
+  }
+
+  defb "get" {
+    k, m = get Val, Map
+    s << m[k]
+  }
 
   defb "<<" {
     n, e = get Val, Vec

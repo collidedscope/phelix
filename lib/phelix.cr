@@ -4,8 +4,9 @@ require "phelix/builtins"
 class Phelix
   alias Num = BigInt
   alias Str = String
-  alias Val = Bool | Fun | Num | Str | Vec
+  alias Val = Bool | Fun | Map | Num | Str | Vec
   alias Vec = Array(Val)
+  alias Map = Hash(Val, Val)
   alias Fun = self | (Vec -> Vec)
 
   enum Type; Num; Str; Fun; Word end
@@ -69,9 +70,10 @@ class Phelix
 
   def self.tokenize(src)
     src
-      .gsub(/#.*/, "")                                      # strip comments
-      .gsub(/[)(]/, " \\0 ")                                # pad parens for easy tokenization
-      .gsub(/\[([^\]]+)\]/) { "#{$1} #{$1.split.size} []" } # arrays
+      .gsub(/#.*/, "") # strip comments
+      .gsub(/[)(]/, " \\0 ") # pad parens for easy tokenization
+      .gsub(/\[([^\]]+)\]/) { "#{$1} #{$1.split.size} []" } # vectors
+      .gsub(/{([^}]+)}/) { "#{$1} #{$1.split.size // 2} {}" } # maps
       .split
   end
 end
