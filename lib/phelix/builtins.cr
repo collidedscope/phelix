@@ -1,6 +1,4 @@
 class Phelix
-  @@builtins = {} of Str => Proc(Vec, Nil)
-
   macro get(*types)
     {% if types.size > 1 %}
       { {% for t in types %} s.pop.as {{t}}, {% end %} }
@@ -10,7 +8,7 @@ class Phelix
   end
 
   macro bin_op(op)
-    @@builtins[{{op.id.stringify[0..0]}}] = -> (s: Vec) {
+    @@env[{{op.id.stringify[0..0]}}] = -> (s: Vec) {
       case a = s.pop
       when Vec
         s << a.reduce { |m, n|
@@ -25,7 +23,7 @@ class Phelix
   end
 
   macro chain_op(op)
-    @@builtins[{{op.id.stringify[0..0]}}] = -> (s: Vec) {
+    @@env[{{op.id.stringify[0..0]}}] = -> (s: Vec) {
       case a = s.pop
       when Vec
         s << a.each_cons(2).all? { |(m, n)|
@@ -52,7 +50,7 @@ class Phelix
   chain_op(:==)
 
   macro defb(word, &body)
-    @@builtins[{{word}}] = -> (s: Vec) {{body}}
+    @@env[{{word}}] = -> (s: Vec) {{body}}
   end
 end
 

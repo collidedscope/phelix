@@ -1,9 +1,9 @@
 class Phelix
   # inspect [a] => [] + IO
-  defb "." { p s.pop }
+  defb "." { p s.pop; s }
 
   defb "eval" {
-    Fun.new(Fun.tokenize get Str).evaluate s
+    Fun.new(Fun.tokenize get Str).call s
   }
 
   defb "," { p s }

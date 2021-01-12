@@ -2,17 +2,17 @@ require "big"
 require "phelix/builtins"
 
 class Phelix
-  alias Fun = Phelix
+  alias Fun = self
   alias Num = BigInt
   alias Str = String
-  alias Val = Bool | Fun | Num | Str | Vec
+  alias Val = Bool | Fun | Num | Str | Vec | Proc(Vec, Vec)
   alias Vec = Array(Val)
 
   enum Type; Num; Str; Fun; Word end
 
   record Insn, t : Type, v : Val
 
-  @@env = {} of Str => Fun
+  @@env = {} of Str => Fun | Proc(Vec, Vec)
   @tokens = [] of String
   @insns = [] of Insn
 
@@ -43,7 +43,7 @@ class Phelix
     end
   end
 
-  def evaluate(stack = Vec.new)
+  def call(stack = Vec.new)
     @insns.each do |insn|
       case insn.t
       when Type::Num, Type::Str, Type::Fun
@@ -51,11 +51,9 @@ class Phelix
       when Type::Word
         word = insn.v.as String
         if fn = @@env[word]? # let user-defined words take precedence
-          fn.evaluate stack
+          fn.call stack
         elsif word[0] == '\''
           stack << @@env[word[1..-1]]
-        elsif op = @@builtins[word]?
-          op.call stack
         else
           abort "unknown word '#{word}'"
         end

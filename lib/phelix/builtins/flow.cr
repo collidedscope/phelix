@@ -1,37 +1,41 @@
 class Phelix
   defb "if" {
     a, c, v = get Fun, Fun, Bool
-    (v ? c : a).as(Fun).evaluate s
+    (v ? c : a).as(Fun).call s
   }
 
   defb "cond" {
     n = get Num
     arms = Array(Tuple(Fun, Fun)).new(n) { get Fun, Fun }
     arms.reverse_each do |fn, cond|
-      break fn.evaluate s if cond.evaluate(s.dup).last
+      break fn.call s if cond.call(s.dup).last
     end
+    s
   }
 
   defb "while" {
     body, test = get Fun, Fun
-    while test.evaluate(s).pop
-      s.replace body.evaluate(s)
+    while test.call(s).pop
+      s.replace body.call(s)
     end
+    s
   }
 
   defb "until" {
     body, test = get Fun, Fun
-    until test.evaluate(s).pop
-      s.replace body.evaluate(s)
+    until test.call(s).pop
+      s.replace body.call(s)
     end
+    s
   }
 
   defb "times" {
     n, body = get Num, Fun
-    n.times { body.evaluate s }
+    n.times { body.call s }
+    s
   }
 
   defb "call" {
-    get(Fun).evaluate s
+    get(Fun).call s
   }
 end

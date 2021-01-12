@@ -29,22 +29,22 @@ class Phelix
 
   defb "map" {
     fn = get Fun
-    s[-1].as(Vec).map! { |e| fn.evaluate([e]).last }
+    s[-1].as(Vec).map! { |e| fn.call([e]).last }
   }
 
   defb "select" {
     fn = get Fun
-    s[-1].as(Vec).select! { |e| fn.evaluate([e]).last }
+    s[-1].as(Vec).select! { |e| fn.call([e]).last }
   }
 
   defb "reject" {
     fn = get Fun
-    s[-1].as(Vec).reject! { |e| fn.evaluate([e]).last }
+    s[-1].as(Vec).reject! { |e| fn.call([e]).last }
   }
 
   defb "maxby" {
     fn, enu = get Fun,Vec
-    s << enu.max_by { |e| fn.evaluate([e]).last.as Num }
+    s << enu.max_by { |e| fn.call([e]).last.as Num }
   }
 
   defb "zip" {
