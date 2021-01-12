@@ -20,7 +20,10 @@ class Phelix
   }
 
   defb "s/bytes" {
-    t = get Str
-    s << t.bytes.map { |x| x.to_big_i.as Val }
+    s << get(Str).bytes.map &.to_big_i.as Val
+  }
+
+  defb "s/chars" {
+    s << get(Str).chars.map &.to_s.as Val
   }
 end
