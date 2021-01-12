@@ -1,6 +1,6 @@
 class Phelix
   defb "juxt" {
-    fns = get Array
-    s << fns.map { |f| f.as(Phelix).evaluate(s.dup).last.as Value }
+    fns = get Vec
+    s << fns.map { |f| f.as(Fun).evaluate(s.dup).last.as Val }
   }
 end

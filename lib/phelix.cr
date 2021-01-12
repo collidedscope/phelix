@@ -2,14 +2,17 @@ require "big"
 require "phelix/builtins"
 
 class Phelix
-  enum Type
-    Num; Str; Fun; Word
-  end
-  alias Value = BigInt | String | Bool | Phelix | Array(Value)
+  alias Fun = Phelix
+  alias Num = BigInt
+  alias Str = String
+  alias Val = Bool | Fun | Num | Str | Vec
+  alias Vec = Array(Val)
 
-  record Insn, t : Type, v : Value
+  enum Type; Num; Str; Fun; Word end
 
-  @@env = {} of String => Phelix
+  record Insn, t : Type, v : Val
+
+  @@env = {} of Str => Fun
   @tokens = [] of String
   @insns = [] of Insn
 
@@ -25,7 +28,7 @@ class Phelix
         break if t == needle
         fn << t
       end
-      Phelix.new fn
+      Fun.new fn
     }
 
     while tok = ts.shift?
@@ -40,13 +43,13 @@ class Phelix
     end
   end
 
-  def evaluate(stack = [] of Value)
+  def evaluate(stack = Vec.new)
     @insns.each do |insn|
       case insn.t
       when Type::Num, Type::Str, Type::Fun
         stack << insn.v
       when Type::Word
-        word = insn.v.as(String)
+        word = insn.v.as String
         if fn = @@env[word]? # let user-defined words take precedence
           fn.evaluate stack
         elsif word[0] == '\''

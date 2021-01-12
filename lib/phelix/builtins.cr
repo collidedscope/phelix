@@ -1,23 +1,23 @@
 class Phelix
-  @@builtins = {} of String => Proc(Array(Value), Nil)
+  @@builtins = {} of Str => Proc(Vec, Nil)
 
   macro get(*types)
     {% if types.size > 1 %}
-      { {% for t in types %} s.pop.as({{t}}), {% end %} }
+      { {% for t in types %} s.pop.as {{t}}, {% end %} }
     {% else %}
-      s.pop.as({{types[0]}})
+      s.pop.as {{types[0]}}
     {% end %}
   end
 
   macro bin_op(op)
-    @@builtins[{{op.id.stringify[0..0]}}] = -> (s: Array(Value)) {
+    @@builtins[{{op.id.stringify[0..0]}}] = -> (s: Vec) {
       case a = s.pop
-      when Array
+      when Vec
         s << a.reduce { |m, n|
-          m.as(BigInt) {{op.id}} n.as(BigInt)
+          m.as(Num) {{op.id}} n.as(Num)
         }
-      when BigInt
-        s << get(BigInt) {{op.id}} a
+      when Num
+        s << get(Num) {{op.id}} a
       else
         abort "can't #{{{op}}} your #{s}"
       end
@@ -25,16 +25,16 @@ class Phelix
   end
 
   macro chain_op(op)
-    @@builtins[{{op.id.stringify[0..0]}}] = -> (s: Array(Value)) {
+    @@builtins[{{op.id.stringify[0..0]}}] = -> (s: Vec) {
       case a = s.pop
-      when Array
+      when Vec
         s << a.each_cons(2).all? { |(m, n)|
-          m.as(BigInt) {{op.id}} n.as(BigInt)
+          m.as(Num) {{op.id}} n.as(Num)
         }
-      when BigInt
-        s << (get(BigInt) {{op.id}} a)
-      when String
-        s << (get(String) {{op.id}} a)
+      when Num
+        s << (get(Num) {{op.id}} a)
+      when Str
+        s << (get(Str) {{op.id}} a)
       else
         abort "can't #{{{op}}} your #{s}"
       end
@@ -52,7 +52,7 @@ class Phelix
   chain_op(:==)
 
   macro defb(word, &body)
-    @@builtins[{{word}}] = -> (s: Array(Value)) {{body}}
+    @@builtins[{{word}}] = -> (s: Vec) {{body}}
   end
 end
 

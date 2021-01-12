@@ -3,14 +3,14 @@ class Phelix
   defb "." { p s.pop }
 
   defb "eval" {
-    Phelix.new(Phelix.tokenize get String).evaluate s
+    Fun.new(Fun.tokenize get Str).evaluate s
   }
 
   defb "," { p s }
 
   defb "len" {
     case v = s.pop
-    when Array, String
+    when Vec, Str
       s << v.size.to_big_i
     else
       abort "can't len your thing"
@@ -19,8 +19,8 @@ class Phelix
 
   # range [a b] => [a a+1 ... b]
   defb ".." {
-    n, m = get BigInt, BigInt
-    tmp = Array(Value).new (m - n).abs + 1
+    n, m = get Num, Num
+    tmp = Vec.new (m - n).abs + 1
     if m < n
       m.upto(n) { |e| tmp << e }
     else
@@ -30,12 +30,12 @@ class Phelix
   }
 
   defb "++" {
-    b, a = get String | Array(Value), String | Array(Value)
+    b, a = get Str | Vec, Str | Vec
     case a
-    when String
-      s << a.as(String) + b.as(String)
+    when Str
+      s << a.as Str + b.as Str
     else
-      s << a.as(Array(Value)) + b.as(Array(Value))
+      s << a.as Vec + b.as Vec
     end
   }
 
@@ -48,10 +48,10 @@ class Phelix
   }
 
   defb "argv" {
-    s << ARGV.map &.as Value
+    s << ARGV.map &.as Val
   }
 
   defb "f/read" {
-    s << File.read get String
+    s << File.read get Str
   }
 end
