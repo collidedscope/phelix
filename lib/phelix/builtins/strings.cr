@@ -1,9 +1,4 @@
 class Phelix
-  defb "s/in" {
-    n, h = get Str, Str
-    s << h.includes? n
-  }
-
   defb "s/up" {
     s << get(Str).upcase
   }
