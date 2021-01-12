@@ -5,14 +5,14 @@ class Phelix
   alias Fun = self
   alias Num = BigInt
   alias Str = String
-  alias Val = Bool | Fun | Num | Str | Vec | Proc(Vec, Vec)
+  alias Val = Bool | Fun | Num | Str | Vec | (Vec -> Vec)
   alias Vec = Array(Val)
 
   enum Type; Num; Str; Fun; Word end
 
   record Insn, t : Type, v : Val
 
-  @@env = {} of Str => Fun | Proc(Vec, Vec)
+  @@env = {} of Str => Fun | (Vec -> Vec)
   @tokens = [] of String
   @insns = [] of Insn
 
