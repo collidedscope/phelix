@@ -26,6 +26,11 @@ class Phelix
     end
   }
 
+  defb "times" {
+    n, body = get BigInt, Phelix
+    n.times { body.evaluate s }
+  }
+
   defb "call" {
     get(Phelix).evaluate s
   }
