@@ -13,6 +13,14 @@ class Phelix
     s << (e.as(Vec) << n)
   }
 
+  defb "in" {
+    haystack, needle = get Str | Vec, Val
+    s << case haystack
+         when Str; haystack.includes? needle.as Str
+         else haystack.includes? needle
+         end
+  }
+
   defb "sort" {
     enu = get Vec
     tmp = Vec.new enu.size
