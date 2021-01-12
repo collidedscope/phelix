@@ -2,17 +2,17 @@ require "big"
 require "phelix/builtins"
 
 class Phelix
-  alias Fun = self
   alias Num = BigInt
   alias Str = String
-  alias Val = Bool | Fun | Num | Str | Vec | (Vec -> Vec)
+  alias Val = Bool | Fun | Num | Str | Vec
   alias Vec = Array(Val)
+  alias Fun = self | (Vec -> Vec)
 
   enum Type; Num; Str; Fun; Word end
 
   record Insn, t : Type, v : Val
 
-  @@env = {} of Str => Fun | (Vec -> Vec)
+  @@env = {} of Str => Fun
   @tokens = [] of String
   @insns = [] of Insn
 
@@ -28,7 +28,7 @@ class Phelix
         break if t == needle
         fn << t
       end
-      Fun.new fn
+      Phelix.new fn
     }
 
     while tok = ts.shift?

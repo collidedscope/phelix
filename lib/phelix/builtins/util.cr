@@ -3,7 +3,7 @@ class Phelix
   defb "." { p s.pop; s }
 
   defb "eval" {
-    Fun.new(Fun.tokenize get Str).call s
+    Phelix.new(Phelix.tokenize get Str).call s
   }
 
   defb "," { p s }
