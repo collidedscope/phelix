@@ -26,6 +26,12 @@ class Phelix
     s << m[k]
   }
 
+  defb "put" {
+    v, k, m = get Val, Val, Map
+    m[k] = v
+    s << m
+  }
+
   defb "<<" {
     n, e = get Val, Vec
     s << (e.as(Vec) << n)
