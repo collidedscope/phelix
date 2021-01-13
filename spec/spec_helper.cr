@@ -8,7 +8,7 @@ end
 class Hash
   def tests
     each do |code, expected|
-      run_phelix(code).should eq [expected]
+      run_phelix(code).should eq expected
     end
   end
 end
