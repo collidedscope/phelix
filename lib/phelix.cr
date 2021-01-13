@@ -13,7 +13,7 @@ class Phelix
 
   record Insn, t : Type, v : Val
 
-  @@env = {} of Str => Fun
+  @@env = {} of Str => Val
   @tokens = [] of String
   @insns = [] of Insn
 
@@ -52,7 +52,11 @@ class Phelix
       when Type::Word
         word = insn.v.as String
         if fn = @@env[word]?
-          fn.call stack
+          if fn.is_a? Fun
+            fn.call stack
+          else
+            stack << fn
+          end
         elsif word[0] == '\''
           word = word.lchop
           stack << @@env.fetch word, word

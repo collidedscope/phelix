@@ -54,4 +54,11 @@ class Phelix
   defb "f/read" {
     s << File.read get Str
   }
+
+  defb "<-" {
+    get(Vec).reverse_each { |id|
+      @@env[id.as Str] = s.pop
+    }
+    s
+  }
 end
