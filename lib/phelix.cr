@@ -54,7 +54,8 @@ class Phelix
         if fn = @@env[word]?
           fn.call stack
         elsif word[0] == '\''
-          stack << @@env[word[1..-1]]
+          word = word.lchop
+          stack << @@env.fetch word, word
         else
           abort "unknown word '#{word}'"
         end
