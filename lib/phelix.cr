@@ -51,7 +51,7 @@ class Phelix
         stack << insn.v
       when Type::Word
         word = insn.v.as String
-        if fn = @@env[word]? # let user-defined words take precedence
+        if fn = @@env[word]?
           fn.call stack
         elsif word[0] == '\''
           stack << @@env[word[1..-1]]
