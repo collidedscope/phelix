@@ -120,4 +120,16 @@ class Phelix
   def self.sources
     @@sources
   end
+
+  ALIASES = {
+    Fun => :Fun,
+    String => :Str,
+    BigInt => :Num,
+    Array(Val) => :Vec,
+    Hash(Val, Val) => :Map,
+  }
+
+  def self.alias_for(type)
+    ALIASES.fetch type, type
+  end
 end

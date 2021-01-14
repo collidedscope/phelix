@@ -3,7 +3,7 @@ class Phelix
     begin
       (v = s.pop).as {{type}}
     rescue TypeCastError
-      abort "expected #{{{type}}} for #{@@now}, got #{v}"
+      fail {{type}}, v
     end
   end
 
@@ -63,6 +63,10 @@ class Phelix
   chain_op(:<)
   chain_op(:>)
   chain_op(:==)
+
+  def self.fail(wanted, got)
+    abort "wanted #{alias_for wanted} for #{@@now}, got #{got.inspect}"
+  end
 end
 
 require "phelix/builtins/*"
