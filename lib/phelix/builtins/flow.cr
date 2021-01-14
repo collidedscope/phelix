@@ -10,7 +10,6 @@ class Phelix
     arms.reverse_each do |fn, cond|
       break fn.call s if cond.call(s.dup).last
     end
-    s
   }
 
   defb "while" {
@@ -18,7 +17,6 @@ class Phelix
     while test.call(s).pop
       s.replace body.call(s)
     end
-    s
   }
 
   defb "until" {
@@ -26,19 +24,16 @@ class Phelix
     until test.call(s).pop
       s.replace body.call(s)
     end
-    s
   }
 
   defb "times" {
     n, body = get Num, Fun
     n.times { body.call s }
-    s
   }
 
   defb "each" {
     fn = get Fun
     get(Vec).each { |e| fn.call s << e }
-    s
   }
 
   defb "call" {

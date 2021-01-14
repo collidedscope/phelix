@@ -38,7 +38,7 @@ class Phelix
     {% if flag?(:ocs) %}
       @@docs[{{word}}] = {__FILE__, __LINE__}
     {% else %}
-      @@env[{{word}}] = -> (s: Vec) {{body}}
+      @@env[{{word}}] = -> (s: Vec) { -> {{body}}.call; s }
       @@sources[{{word}}] = {{body.stringify}}
     {% end %}
   end

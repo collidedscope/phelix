@@ -2,7 +2,7 @@ class Phelix
   # vectorize the top N elements of the stack
   # [ e1 ... en N ] => [ [e1 ... en] ]
   defb "[]" {
-    s << s.pop get(Num).to_i32
+    s << s.pop get(Num).to_i
   }
 
   defb "nth" {
@@ -12,7 +12,6 @@ class Phelix
 
   defb "\\" {
     get(Vec).each { |e| s << e }
-    s
   }
 
   # mapify the top 2N elements of the stack
@@ -58,6 +57,7 @@ class Phelix
   defb "sort" {
     enu = get Vec
     tmp = Vec.new enu.size
+
     if enu.all? &.class.== Str
       enu.map(&.as Str).sort.each { |e| tmp << e }
     elsif enu.all? &.class.== Num
@@ -92,6 +92,7 @@ class Phelix
   defb "zip" {
     b, a = get Vec, Vec
     abort "(zip) length mismatch" unless a.size == b.size
+
     tmp = Vec.new a.size
     a.zip(b) { |c, d| tmp << [c.as Val, d.as Val] }
     s << tmp

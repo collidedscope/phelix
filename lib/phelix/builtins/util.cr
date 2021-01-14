@@ -1,12 +1,16 @@
 class Phelix
   # inspect [a] => [] + IO
-  defb "." { p s.pop; s }
+  defb "." {
+    p s.pop
+  }
 
   defb "eval" {
     new(tokenize get Str).call s
   }
 
-  defb "," { p s }
+  defb "," {
+    p s
+  }
 
   defb "len" {
     case v = s.pop
@@ -61,6 +65,5 @@ class Phelix
       @@locals[scope] ||= {} of String => Val
       @@locals[scope][id.as Str] = s.pop
     end
-    s
   }
 end
