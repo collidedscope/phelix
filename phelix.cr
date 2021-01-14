@@ -8,7 +8,8 @@ require "phelix"
   exit
 {% end %}
 
-Phelix.new(Phelix.tokenize File.read "prelude.phx").call
+pre = File.read File.expand_path "prelude.phx", __DIR__
+Phelix.new(Phelix.tokenize pre).call
 
 if file = ARGV.shift?
   abort "no such file: '#{file}'" unless File.exists? file
