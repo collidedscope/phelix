@@ -35,6 +35,12 @@ class Phelix
     s
   }
 
+  defb "each" {
+    fn = get Fun
+    get(Vec).each { |e| fn.call s << e }
+    s
+  }
+
   defb "call" {
     get(Fun).call s
   }
