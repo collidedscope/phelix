@@ -95,4 +95,11 @@ class Phelix
   defb "uniq" {
     s << get(Vec).to_set.map &.as Val
   }
+
+  defb "v*" {
+    n, v = get Num, Vec
+    tmp = Vec.new
+    n.times { tmp.concat v }
+    s << tmp
+  }
 end
