@@ -96,7 +96,10 @@ class Phelix
   end
 
   def inspect(io)
-    io << "#{@@env.key_for self}(#{@tokens.join ' '})"
+    if name = @@env.key_for? self
+      io << name
+    end
+    io << "(#{@tokens.join ' '})"
   end
 
   def self.tokenize(src)
