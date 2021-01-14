@@ -7,4 +7,13 @@ class Phelix
     fn.call s
     s << top
   }
+
+  # partially applies f to a, leaving the new function at the top of the stack
+  # ( a f -- f )
+  defb "curry" {
+    fn, val = get Phelix, Val
+    # TODO: just stringifying the value to be curried is
+    # super-brittle, but it suffices for very simple cases
+    s << Phelix.new fn.@tokens.unshift val.to_s
+  }
 end
