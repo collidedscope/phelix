@@ -27,22 +27,27 @@ class Phelix
 
   def parse
     ts = @tokens.dup
-    find = ->(needle : String) {
+    find = ->(close : String, reopen : String | Regex) {
       fn = [] of String
+      nesting = 0
       while t = ts.shift?
-        break if t == needle
+        if t == close
+          break if nesting.zero?
+          nesting -= 1
+        end
+        nesting += 1 if reopen === t
         fn << t
       end
       Phelix.new fn
     }
 
     while tok = ts.shift?
-      next @@env[tok[0..-2]] = find.call(";") if tok[-1] == ':'
+      next @@env[tok.rchop] = find.call ";", /:$/ if tok[-1] == ':'
 
       @insns << Insn.new *case
       when n = tok.to_i? then {Type::Num, n.to_big_i}
       when tok[0] == '"' then {Type::Str, tok[1..-2]}
-      when tok == "("    then {Type::Fun, find.call ")"}
+      when tok == "("    then {Type::Fun, find.call ")", "("}
       else                    {Type::Word, tok}
       end
     end
