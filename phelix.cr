@@ -1,6 +1,10 @@
 require "phelix"
 
 {% if flag?(:ocs) %}
+  by_file = Phelix.docs.group_by(&.[1][0]).transform_values { |val|
+    val.map { |v| {v[0], v[1][1] } }
+  }
+  p by_file
   exit
 {% end %}
 
@@ -12,7 +16,7 @@ if file = ARGV.shift?
 else
   stack = [] of Phelix::Val
   loop do
-    print "λ "
+    print "⧺ "
     if expr = STDIN.gets
       p Phelix.new(Phelix.tokenize expr).call stack
     else
