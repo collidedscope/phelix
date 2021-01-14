@@ -1,6 +1,6 @@
 class Phelix
   defb "if" {
-    a, c, v = get Fun, Fun, Bool
+    a, c, v = get Fun, Fun, Val
     (v ? c : a).as(Fun).call s
   }
 
