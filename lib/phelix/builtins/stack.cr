@@ -12,17 +12,24 @@ class Phelix
     s << s[-2]
   }
 
-  # swaps the values at the top of the stack
+  # exchanges the two values at the top of the stack
   # ( a b -- b a )
   defb "swap" {
     s[-1], s[-2] = s[-2], s[-1]
     s
   }
 
-  # swaps the pairs at the top of the stack
+  # exchanges the two pairs at the top of the stack
   # ( a b c d -- c d a b )
   defb "2swap" {
     s[-4], s[-3], s[-2], s[-1] = s[-2], s[-1], s[-4], s[-3]
+    s
+  }
+
+  # exchanges the two values immediately below the top of the stack
+  # ( a b c -- b a c )
+  defb "swapd" {
+    s[-2], s[-3] = s[-3], s[-2]
     s
   }
 
