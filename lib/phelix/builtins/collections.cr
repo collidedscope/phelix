@@ -66,21 +66,21 @@ class Phelix
 
   defb "map" {
     fn = get Fun
-    s[-1].as(Vec).map! { |e| fn.call([e]).last }
+    peek(Vec).map! { |e| fn.call([e]).last }
   }
 
   defb "select" {
     fn = get Fun
-    s[-1].as(Vec).select! { |e| fn.call([e]).last }
+    peek(Vec).select! { |e| fn.call([e]).last }
   }
 
   defb "reject" {
     fn = get Fun
-    s[-1].as(Vec).reject! { |e| fn.call([e]).last }
+    peek(Vec).reject! { |e| fn.call([e]).last }
   }
 
   defb "maxby" {
-    fn, enu = get Fun,Vec
+    fn, enu = get Fun, Vec
     s << enu.max_by { |e| fn.call([e]).last.as Num }
   }
 

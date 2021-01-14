@@ -7,6 +7,14 @@ class Phelix
     end
   end
 
+  macro peek(type, pos = -1)
+    begin
+      (v = s[{{pos}}]).as {{type}}
+    rescue TypeCastError
+      fail {{type}}, v
+    end
+  end
+
   macro get(*types)
     {% if types.size > 1 %}
       { {% for t in types %} check({{t}}), {% end %} }
