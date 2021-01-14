@@ -133,7 +133,7 @@ struct Proc
     if builtin = Phelix.env.key_for? self
       io << "builtin##{builtin}(#{Phelix.sources[builtin]})"
     else
-      io << self
+      io << 'λ' # curried functions TODO: make them inspectable
     end
   end
 end
