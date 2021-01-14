@@ -75,14 +75,27 @@ class Phelix
     }
   end
 
+  # pops the top two values and pushes their sum unless the top value is a
+  # vector, in which case the result is the vector's reduction over addition
   bin_op(:+)
+  # pops the top two values and pushes their difference unless the top value is a
+  # vector, in which case the result is the vector's reduction over subtraction
   bin_op(:-)
+  # pops the top two values and pushes their product unless the top value is a
+  # vector, in which case the result is the vector's reduction over multiplication
   bin_op(:*)
+  # pops the top two values and pushes their quotient unless the top value is a
+  # vector, in which case the result is the vector's reduction over division
   bin_op(://)
+  # pops the top two values and pushes their modulus unless the top value is a
+  # vector, in which case the result is the vector's reduction over modulation
   bin_op(:%)
 
+  # pops the top two values and pushes whether the first is less than the second
   chain_op(:<)
+  # pops the top two values and pushes whether the first is greater than the second
   chain_op(:>)
+  # pops the top two values and pushes whether they're equal
   chain_op(:==)
 
   def self.fail(wanted, got)
