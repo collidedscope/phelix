@@ -23,7 +23,10 @@ class Phelix
 
   record Insn, t : Type, v : Val
 
-  @@env = {} of Str => Val
+  @@env = {} of String => Val
+  @@scope = [] of String
+  @@locals = {} of Array(String) => Hash(String, Val)
+
   @tokens = [] of String
   @insns = [] of Insn
 
@@ -62,11 +65,16 @@ class Phelix
       when Type::Word
         word = insn.v.as String
         if fn = @@env[word]?
-          if fn.is_a? Fun
+          if fn.is_a? Phelix
+            @@scope << word
             fn.call stack
-          else
-            stack << fn
+            @@locals.delete @@scope
+            @@scope.pop
+          elsif fn.is_a? Proc
+            fn.call stack
           end
+        elsif val = resolve_local word
+          stack << val
         elsif word[0] == '\''
           word = word.lchop
           stack << @@env.fetch word, word
@@ -77,6 +85,12 @@ class Phelix
     end
 
     stack
+  end
+
+  def resolve_local(word)
+    if locals = @@locals[@@scope]?
+      locals[word]?
+    end
   end
 
   def inspect(io)

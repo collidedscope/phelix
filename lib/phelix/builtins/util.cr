@@ -56,9 +56,11 @@ class Phelix
   }
 
   defb "<-" {
-    get(Vec).reverse_each { |id|
-      @@env[id.as Str] = s.pop
-    }
+    scope = @@scope.dup
+    get(Vec).reverse_each do |id|
+      @@locals[scope] ||= {} of String => Val
+      @@locals[scope][id.as Str] = s.pop
+    end
     s
   }
 end
