@@ -1,5 +1,9 @@
 require "phelix"
 
+{% if flag?(:ocs) %}
+  exit
+{% end %}
+
 if file = ARGV.shift?
   abort "no such file: '#{file}'" unless File.exists? file
   Phelix.new(Phelix.tokenize File.read file).call

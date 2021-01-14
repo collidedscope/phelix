@@ -23,11 +23,24 @@ class Phelix
     {% end %}
   end
 
+  @@docs = {} of String => {String, Int32}
   @@sources = {} of String => String
 
+  def self.docs
+    @@docs
+  end
+
+  def self.sources
+    @@sources
+  end
+
   macro defb(word, &body)
-    @@env[{{word}}] = -> (s: Vec) {{body}}
-    @@sources[{{word}}] = {{body.stringify}}
+    {% if flag?(:ocs) %}
+      @@docs[{{word}}] = {__FILE__, __LINE__}
+    {% else %}
+      @@env[{{word}}] = -> (s: Vec) {{body}}
+      @@sources[{{word}}] = {{body.stringify}}
+    {% end %}
   end
 
   macro bin_op(op)

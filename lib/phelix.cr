@@ -107,10 +107,6 @@ class Phelix
     @@env
   end
 
-  def self.sources
-    @@sources
-  end
-
   ALIASES = {
     Fun => :Fun,
     String => :Str,
