@@ -23,7 +23,7 @@ class Phelix
 
   record Insn, t : Type, v : Val
 
-  @@env = {} of String => Val
+  @@env = {} of String => Fun
   @@scope = [] of String
   @@locals = {} of Array(String) => Hash(String, Val)
 
@@ -73,13 +73,11 @@ class Phelix
           elsif fn.is_a? Proc
             fn.call stack
           end
-        elsif val = resolve_local word
-          stack << val
         elsif word[0] == '\''
           word = word.lchop
           stack << @@env.fetch word, word
         else
-          abort "unknown word '#{word}'"
+          stack << resolve_local(word).not_nil!
         end
       end
     end
@@ -88,8 +86,15 @@ class Phelix
   end
 
   def resolve_local(word)
-    if locals = @@locals[@@scope]?
-      locals[word]?
+    scope = @@scope.dup
+
+    loop do
+      if locals = @@locals[scope]?
+        if val = locals[word]?
+          return val
+        end
+      end
+      scope.pop { abort "unknown word '#{word}'" }
     end
   end
 
