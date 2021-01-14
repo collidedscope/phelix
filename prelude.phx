@@ -1,0 +1,6 @@
+drop: pop ;
+
+true: 0 0 = ;
+false: 0 1 = ;
+
+keep: over 'call dip ;
