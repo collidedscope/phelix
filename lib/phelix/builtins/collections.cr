@@ -10,6 +10,11 @@ class Phelix
     s << v[n]
   }
 
+  defb "\\" {
+    get(Vec).each { |e| s << e }
+    s
+  }
+
   # mapify the top 2N elements of the stack
   # [ k1 v1 ... kn vn N ] => [ {k1 v1 ... kn vn} ]
   defb "{}" {
