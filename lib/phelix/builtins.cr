@@ -7,8 +7,15 @@ class Phelix
     {% end %}
   end
 
+  @@sources = {} of String => String
+
+  macro defb(word, &body)
+    @@env[{{word}}] = -> (s: Vec) {{body}}
+    @@sources[{{word}}] = {{body.stringify}}
+  end
+
   macro bin_op(op)
-    @@env[{{op.id.stringify[0..0]}}] = -> (s: Vec) {
+    defb {{op.id.stringify[0..0]}} {
       case a = s.pop
       when Vec
         s << a.reduce { |m, n|
@@ -23,7 +30,7 @@ class Phelix
   end
 
   macro chain_op(op)
-    @@env[{{op.id.stringify[0..0]}}] = -> (s: Vec) {
+    defb {{op.id.stringify[0..0]}} {
       case a = s.pop
       when Vec
         s << a.each_cons(2).all? { |(m, n)|
@@ -48,10 +55,6 @@ class Phelix
   chain_op(:<)
   chain_op(:>)
   chain_op(:==)
-
-  macro defb(word, &body)
-    @@env[{{word}}] = -> (s: Vec) {{body}}
-  end
 end
 
 require "phelix/builtins/*"

@@ -1,6 +1,16 @@
 require "big"
 require "phelix/builtins"
 
+struct Proc
+  def inspect(io)
+    if builtin = Phelix.env.key_for? self
+      io << Phelix.sources[builtin]
+    else
+      io << self
+    end
+  end
+end
+
 class Phelix
   alias Num = BigInt
   alias Str = String
@@ -80,5 +90,13 @@ class Phelix
       .gsub(/\[([^\]]+)\]/) { "#{$1} #{$1.split.size} []" } # vectors
       .gsub(/{([^}]+)}/) { "#{$1} #{$1.split.size // 2} {}" } # maps
       .split
+  end
+
+  def self.env
+    @@env
+  end
+
+  def self.sources
+    @@sources
   end
 end
