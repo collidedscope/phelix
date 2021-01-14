@@ -1,9 +1,17 @@
 class Phelix
+  macro check(type)
+    begin
+      (v = s.pop).as {{type}}
+    rescue TypeCastError
+      abort "expected #{{{type}}} for #{@@now}, got #{v}"
+    end
+  end
+
   macro get(*types)
     {% if types.size > 1 %}
-      { {% for t in types %} s.pop.as {{t}}, {% end %} }
+      { {% for t in types %} check({{t}}), {% end %} }
     {% else %}
-      s.pop.as {{types[0]}}
+      check {{types[0]}}
     {% end %}
   end
 

@@ -23,6 +23,7 @@ class Phelix
 
   record Insn, t : Type, v : Val
 
+  @@now = "main"
   @@env = {} of String => Fun
   @@scope = [] of String
   @@locals = {} of Array(String) => Hash(String, Val)
@@ -65,6 +66,7 @@ class Phelix
       when Type::Word
         word = insn.v.as String
         if fn = @@env[word]?
+          @@now = word
           if fn.is_a? Phelix
             @@scope << word
             fn.call stack
