@@ -4,7 +4,7 @@ require "phelix/builtins"
 struct Proc
   def inspect(io)
     if builtin = Phelix.env.key_for? self
-      io << Phelix.sources[builtin]
+      io << "builtin##{builtin}(#{Phelix.sources[builtin]})"
     else
       io << self
     end
@@ -101,7 +101,7 @@ class Phelix
   end
 
   def inspect(io)
-    io << "(#{@tokens.join ' '})"
+    io << "#{@@env.key_for self}(#{@tokens.join ' '})"
   end
 
   def self.tokenize(src)
