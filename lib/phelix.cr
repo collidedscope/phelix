@@ -1,16 +1,6 @@
 require "big"
 require "phelix/builtins"
 
-struct Proc
-  def inspect(io)
-    if builtin = Phelix.env.key_for? self
-      io << "builtin##{builtin}(#{Phelix.sources[builtin]})"
-    else
-      io << self
-    end
-  end
-end
-
 class Phelix
   alias Num = BigInt
   alias Str = String
@@ -131,5 +121,15 @@ class Phelix
 
   def self.alias_for(type)
     ALIASES.fetch type, type
+  end
+end
+
+struct Proc
+  def inspect(io)
+    if builtin = Phelix.env.key_for? self
+      io << "builtin##{builtin}(#{Phelix.sources[builtin]})"
+    else
+      io << self
+    end
   end
 end
