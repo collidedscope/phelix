@@ -1,0 +1,29 @@
+# dead-simple recursive Fibonacci that gets slow fast
+fib: dup 2 <
+  (pop 1) # return 1 for n < 2
+  (dup 2 - fib swap 1 - fib +) if ;
+
+10 fib .
+
+# "local" variable declared at top level (basically global)
+{0 1 1 1} ['memo] <-
+
+# memoized recursive definition takes advantage of maps being reference "types"
+memofib:
+  dup memo swap get dup
+  (swap pop)
+  (pop dup dup dup
+   1 - memofib swap 2 - memofib +
+   memo rot rot put swap get) if ;
+
+420 memofib .
+
+# similar to the above except with a local variable to minimize stack juggling
+# NB: considerably slower
+memofib/local: ['n] <-
+  memo n get dup
+  ()
+  (pop n 2 - memofib/local n 1 - memofib/local +
+   memo n rot put n get) if ;
+
+100 memofib/local .
