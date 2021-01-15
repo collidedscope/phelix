@@ -14,4 +14,13 @@ class Phelix
     fn, val = get Fun, Val
     s << -> (t: Vec) { fn.call t << val }
   }
+
+  # takes two functions f and g and returns a function that calls f then g
+  # ( f g -- (f g) )
+  defb "comp" { arity 2
+    g, f = get Fun, Fun
+    s << -> (t: Vec) {
+      g.call f.call t
+    }
+  }
 end
