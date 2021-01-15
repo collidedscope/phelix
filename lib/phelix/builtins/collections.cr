@@ -12,6 +12,10 @@ class Phelix
     s << v[n]
   }
 
+  defb "pop" { arity 1
+    s << peek(Vec).pop
+  }
+
   defb "\\" { arity 1
     get(Vec).each { |e| s << e }
   }
