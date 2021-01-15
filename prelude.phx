@@ -21,6 +21,11 @@ cleave: 'call with each ;
 2keep: '2dup dip 2dip ;
 2bi: '2keep dip call ;
 
+bi*: 'dip dip call ;
+2bi*: '2dip dip call ;
+bi@: dup bi* ;
+2bi@: dup 2bi* ;
+
 +-: '+ '- 2bi ;
 
 first: 0 nth ;
