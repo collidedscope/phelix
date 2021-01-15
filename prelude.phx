@@ -1,8 +1,6 @@
 true: 0 0 = ;
 false: 0 1 = ;
 
-drop: pop ;
-
 keep: over 'call dip ;
 bi: 'keep dip call ;
 tri: ('keep dip keep) dip call ;

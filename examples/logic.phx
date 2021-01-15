@@ -4,8 +4,8 @@ false: 0 1 = ;
 not: 'false 'true if ;
 eq: ('true 'false if) 'not if ;
 xor: eq not ;
-and: () (pop false) if ;
-or: (pop true) () if ;
+and: () (drop false) if ;
+or: (drop true) () if ;
 
 [false false]
 [false true]

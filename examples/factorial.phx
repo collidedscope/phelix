@@ -1,5 +1,5 @@
 factorial: dup 2 <
-  (pop 1) (dup 1 - factorial *) if ;
+  (drop 1) (dup 1 - factorial *) if ;
 
 !: factorial ;
 

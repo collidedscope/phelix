@@ -1,6 +1,6 @@
 # dead-simple recursive Fibonacci that gets slow fast
 fib: dup 2 <
-  (pop 1) # return 1 for n < 2
+  (drop 1) # return 1 for n < 2
   (dup 2 - fib swap 1 - fib +) if ;
 
 10 fib .
@@ -11,8 +11,8 @@ fib: dup 2 <
 # memoized recursive definition takes advantage of maps being reference "types"
 memofib:
   dup memo swap get dup
-  (swap pop)
-  (pop dup dup dup
+  (swap drop)
+  (drop dup dup dup
    1 - memofib swap 2 - memofib +
    memo rot rot put swap get) if ;
 
@@ -23,14 +23,14 @@ memofib:
 memofib/local: ['n] <-
   memo n get dup
   ()
-  (pop n 2 - memofib/local n 1 - memofib/local +
+  (drop n 2 - memofib/local n 1 - memofib/local +
    memo n rot put n get) if ;
 
 100 memofib/local .
 
 # iterative approach fits like a glove in concatenative languages
 iterfib: ['n] <-
-  1 1 (dup rot +) n times pop ;
+  1 1 (dup rot +) n times drop ;
 
 0 10 .. 'iterfib map .
 1337 iterfib .

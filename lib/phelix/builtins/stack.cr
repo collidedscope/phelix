@@ -32,7 +32,7 @@ class Phelix
 
   # removes the value at the top of the stack
   # ( a -- )
-  defb "pop" { arity 1
+  defb "drop" { arity 1
     s.pop
   }
 
