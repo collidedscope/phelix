@@ -44,6 +44,14 @@ class Phelix
     s << m
   }
 
+  defb "invert" { arity 1
+    s << get(Map).invert
+  }
+
+  defb "merge" { arity 2
+    s << get(Map).merge get(Map)
+  }
+
   defb "<<" { arity 2
     n, e = get Val, Vec
     s << (e.as(Vec) << n)
