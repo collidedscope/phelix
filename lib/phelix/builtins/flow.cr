@@ -37,6 +37,11 @@ class Phelix
     get(Vec).each { |e| fn.call s << e }
   }
 
+  defb "each/i" { arity 2
+    fn = get Fun
+    get(Vec).each_with_index { |e, i| fn.call s << i.to_big_i << e }
+  }
+
   defb "call" { arity 1
     get(Fun).call s
   }
