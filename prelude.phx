@@ -35,3 +35,5 @@ part: ['f] <- (f select) (f reject) bi ;
 
 rotd: 'rot dip ;
 roll: rotd swap ;
+
+forever: 'true swap while ;
