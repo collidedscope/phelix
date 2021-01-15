@@ -60,6 +60,12 @@ class Phelix
     s << s[-2]
   }
 
+  # copies the value two under the top of the stack
+  # ( a b c -- a b c a )
+  defb "pick" { arity 3
+    s << s[-3]
+  }
+
   # clones the value at the top of the stack (relevant for reference types)
   defb "clone" { arity 1
     s << s[-1].dup
