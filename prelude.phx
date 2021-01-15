@@ -37,3 +37,6 @@ rotd: 'rot dip ;
 roll: rotd swap ;
 
 forever: 'true swap while ;
+
+unless: swap if ;
+when: () if ;
