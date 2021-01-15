@@ -11,3 +11,5 @@ tri: ('keep dip keep) dip call ;
 2curry: curry curry ;
 with: swapd (swapd call) 2curry ;
 cleave: 'call with each ;
+
+part: ['f] <- (f select) (f reject) bi ;
