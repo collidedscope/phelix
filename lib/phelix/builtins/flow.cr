@@ -45,4 +45,8 @@ class Phelix
   defb "call" { arity 1
     get(Fun).call s
   }
+
+  defb "exit" {
+    exit
+  }
 end
