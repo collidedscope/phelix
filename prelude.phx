@@ -15,4 +15,7 @@ cleave: 'call with each ;
 
 +-: '+ '- 2bi ;
 
+first: 0 nth ;
+last: -1 nth ;
+
 part: ['f] <- (f select) (f reject) bi ;
