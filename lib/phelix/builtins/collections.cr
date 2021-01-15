@@ -79,7 +79,7 @@ class Phelix
     elsif enu.all? &.class.== Num
       enu.map(&.as Num).sort.each { |e| tmp << e }
     else
-      abort "can't sort heterogeneous array"
+      raise "can't sort heterogeneous array"
     end
 
     s << tmp
@@ -107,7 +107,7 @@ class Phelix
 
   defb "zip" { arity 2
     b, a = get Vec, Vec
-    abort "(zip) length mismatch" unless a.size == b.size
+    raise "(zip) length mismatch" unless a.size == b.size
 
     tmp = Vec.new a.size
     a.zip(b) { |c, d| tmp << [c.as Val, d.as Val] }

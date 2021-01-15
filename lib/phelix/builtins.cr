@@ -1,4 +1,12 @@
 class Phelix
+  macro raise(message)
+    return s << Err.new {{message}}
+  end
+
+  macro fail(wanted, got)
+    raise "wanted #{alias_for {{wanted}}} for #{@@now}, got #{{{got}}.inspect}"
+  end
+
   macro check(type)
     begin
       (v = s.pop).as {{type}}
@@ -17,8 +25,7 @@ class Phelix
 
   macro arity(need)
     if s.size < {{need}}
-      abort "need at least #{{{need}}} values for #{@@now}, have #{s.size}:
-    #{s.inspect}"
+      raise "need at least #{{{need}}} values for #{@@now}, have #{s.size}"
     end
   end
 
@@ -104,10 +111,6 @@ class Phelix
   chain_op(:>)
   # pops the top two values and pushes whether they're equal
   chain_op(:==)
-
-  def self.fail(wanted, got)
-    abort "wanted #{alias_for wanted} for #{@@now}, got #{got.inspect}"
-  end
 end
 
 require "phelix/builtins/*"

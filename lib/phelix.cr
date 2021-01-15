@@ -1,10 +1,11 @@
 require "big"
 require "phelix/builtins"
+require "phelix/err"
 
 class Phelix
   alias Num = BigInt
   alias Str = String
-  alias Val = Bool | Fun | Map | Num | Str | Vec
+  alias Val = Bool | Fun | Map | Num | Str | Vec | Err
   alias Vec = Array(Val)
   alias Map = Hash(Val, Val)
   alias Fun = self | (Vec -> Vec)
@@ -91,7 +92,7 @@ class Phelix
           return val
         end
       end
-      scope.pop { abort "unknown word '#{word}'" }
+      scope.pop { return Err.new "unknown word '#{word}'" }
     end
   end
 

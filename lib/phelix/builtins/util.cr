@@ -18,7 +18,7 @@ class Phelix
     when Vec, Str
       s << v.size.to_big_i
     else
-      abort "expected Str | Vec for len, got #{v.inspect}"
+      raise "expected Str | Vec for len, got #{v.inspect}"
     end
   }
 
@@ -66,5 +66,10 @@ class Phelix
       @@locals[scope] ||= {} of String => Val
       @@locals[scope][id.as Str] = s.pop
     end
+  }
+
+  # removes all errors from the stack
+  defb "e" {
+    s.reject! Err
   }
 end
