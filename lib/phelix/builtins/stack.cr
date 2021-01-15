@@ -42,16 +42,22 @@ class Phelix
     s.delete_at -2
   }
 
-  # places the top value two down in the stack (inverse of rot)
-  # ( a b c -- c a b )
-  defb "tuck" { arity 3
-    s[-3], s[-2], s[-1] = s[-1], s[-3], s[-2]
+  # buries a copy of the top value beneath the second-top value
+  # ( a b -- b a b )
+  defb "tuck" { arity 2
+    s.insert -3, s[-1]
   }
 
-  # rotates the stack such that the third element comes to the top
+  # rotates the stack such that the third value comes to the top
   # ( a b c -- b c a )
   defb "rot" { arity 3
     s[-3], s[-2], s[-1] = s[-2], s[-1], s[-3]
+  }
+
+  # places the top value two down in the stack (inverse of rot)
+  # ( a b c -- c a b )
+  defb "-rot" { arity 3
+    s[-3], s[-2], s[-1] = s[-1], s[-3], s[-2]
   }
 
   # copies the value one under the top of the stack
