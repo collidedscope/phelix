@@ -70,18 +70,18 @@ class Phelix
   }
 
   defb "map" {
-    fn = get Fun
-    peek(Vec).map! { |e| fn.call([e]).last }
+    fn, vec = get Fun, Vec
+    s << vec.map { |e| fn.call([e]).last.as Val }
   }
 
   defb "select" {
-    fn = get Fun
-    peek(Vec).select! { |e| fn.call([e]).last }
+    fn, vec = get Fun, Vec
+    s << vec.select { |e| fn.call([e]).last.as Val }
   }
 
   defb "reject" {
-    fn = get Fun
-    peek(Vec).reject! { |e| fn.call([e]).last }
+    fn, vec = get Fun, Vec
+    s << vec.reject { |e| fn.call([e]).last.as Val }
   }
 
   defb "maxby" {
