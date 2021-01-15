@@ -2,15 +2,17 @@ class Phelix
   # vectorize the top N elements of the stack
   # [ e1 ... en N ] => [ [e1 ... en] ]
   defb "[]" {
-    s << s.pop get(Num).to_i
+    n = get Num
+    arity n
+    s << s.pop n.to_i
   }
 
-  defb "nth" {
+  defb "nth" { arity 2
     n, v = get Num, Vec
     s << v[n]
   }
 
-  defb "\\" {
+  defb "\\" { arity 1
     get(Vec).each { |e| s << e }
   }
 
@@ -18,35 +20,37 @@ class Phelix
   # [ k1 v1 ... kn vn N ] => [ {k1 v1 ... kn vn} ]
   defb "{}" {
     m = Map.new false
-    get(Num).times {
+    n = get Num
+    arity n * 2
+    n.times {
       k, v = s.pop 2
       m[k] = v
     }
     s << m
   }
 
-  defb "get" {
+  defb "get" { arity 2
     k, m = get Val, Map
     s << m[k]
   }
 
-  defb "put" {
+  defb "put" { arity 3
     v, k, m = get Val, Val, Map
     m[k] = v
     s << m
   }
 
-  defb "<<" {
+  defb "<<" { arity 2
     n, e = get Val, Vec
     s << (e.as(Vec) << n)
   }
 
-  defb ">>" {
+  defb ">>" { arity 2
     e, n = get Vec, Val
     s << (e.as(Vec) << n)
   }
 
-  defb "in" {
+  defb "in" { arity 2
     haystack, needle = get Str | Vec, Val
     s << case haystack
          when Str; haystack.includes? needle.as Str
@@ -54,7 +58,7 @@ class Phelix
          end
   }
 
-  defb "sort" {
+  defb "sort" { arity 1
     enu = get Vec
     tmp = Vec.new enu.size
 
@@ -69,27 +73,27 @@ class Phelix
     s << tmp
   }
 
-  defb "map" {
+  defb "map" { arity 2
     fn, vec = get Fun, Vec
     s << vec.map { |e| fn.call([e]).last.as Val }
   }
 
-  defb "select" {
+  defb "select" { arity 2
     fn, vec = get Fun, Vec
     s << vec.select { |e| fn.call([e]).last.as Val }
   }
 
-  defb "reject" {
+  defb "reject" { arity 2
     fn, vec = get Fun, Vec
     s << vec.reject { |e| fn.call([e]).last.as Val }
   }
 
-  defb "maxby" {
+  defb "maxby" { arity 2
     fn, enu = get Fun, Vec
     s << enu.max_by { |e| fn.call([e]).last.as Num }
   }
 
-  defb "zip" {
+  defb "zip" { arity 2
     b, a = get Vec, Vec
     abort "(zip) length mismatch" unless a.size == b.size
 
@@ -98,11 +102,11 @@ class Phelix
     s << tmp
   }
 
-  defb "uniq" {
+  defb "uniq" { arity 1
     s << get(Vec).to_set.map &.as Val
   }
 
-  defb "v*" {
+  defb "v*" { arity 2
     n, v = get Num, Vec
     tmp = Vec.new
     n.times { tmp.concat v }

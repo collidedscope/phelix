@@ -15,6 +15,13 @@ class Phelix
     end
   end
 
+  macro arity(need)
+    if s.size < {{need}}
+      abort "need at least #{{{need}}} values for #{@@now}, have #{s.size}:
+    #{s.inspect}"
+    end
+  end
+
   macro get(*types)
     {% if types.size > 1 %}
       { {% for t in types %} check({{t}}), {% end %} }

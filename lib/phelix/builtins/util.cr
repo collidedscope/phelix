@@ -1,28 +1,29 @@
 class Phelix
-  # inspect [a] => [] + IO
-  defb "." {
+  # pops the top of the stack and displays it in a user-friendly way
+  defb "." { arity 1
     p s.pop
   }
 
-  defb "eval" {
-    new(tokenize get Str).call s
-  }
-
+  # displays the entire stack (non-destructive)
   defb "," {
     p s
   }
 
-  defb "len" {
+  defb "eval" { arity 1
+    new(tokenize get Str).call s
+  }
+
+  defb "len" { arity 1
     case v = s.pop
     when Vec, Str
       s << v.size.to_big_i
     else
-      abort "can't len your thing"
+      abort "expected Str | Vec for len, got #{v.inspect}"
     end
   }
 
   # range [a b] => [a a+1 ... b]
-  defb ".." {
+  defb ".." { arity 2
     n, m = get Num, Num
     tmp = Vec.new (m - n).abs + 1
     if m < n
@@ -33,7 +34,7 @@ class Phelix
     s << tmp
   }
 
-  defb "++" {
+  defb "++" { arity 2
     b, a = get Str | Vec, Str | Vec
     case a
     when Str
@@ -55,11 +56,11 @@ class Phelix
     s << ARGV.map &.as Val
   }
 
-  defb "f/read" {
+  defb "f/read" { arity 1
     s << File.read get Str
   }
 
-  defb "<-" {
+  defb "<-" { arity 1
     scope = @@scope.dup
     get(Vec).reverse_each do |id|
       @@locals[scope] ||= {} of String => Val
