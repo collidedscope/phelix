@@ -106,8 +106,8 @@ class Phelix
     src
       .gsub(/#.*/, "") # strip comments
       .gsub(/[)(]/, " \\0 ") # pad parens for easy tokenization
-      .gsub(/\[([^\]]+)\]/) { "#{$1} #{$1.split.size} []" } # vectors
-      .gsub(/{([^}]+)}/) { "#{$1} #{$1.split.size // 2} {}" } # maps
+      .gsub(/(?<!")\[([^\]]+)\]/) { "#{$1} #{$1.split.size} []" } # vectors
+      .gsub(/(?<!"){([^}]+)}/) { "#{$1} #{$1.split.size // 2} {}" } # maps
       .split
   end
 
