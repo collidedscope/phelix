@@ -40,6 +40,8 @@ forever: 'true swap while ;
 
 unless: swap if ;
 when: () if ;
+when*: over 'call '2drop if ;
+while*: ('dup compose) dip while drop ;
 
 prepose: swap compose;
 
