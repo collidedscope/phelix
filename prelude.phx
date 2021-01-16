@@ -53,3 +53,11 @@ accumulate: [ ] ['v] <-
   (over v >> drop) prepose reduce v ;
 produce: [ ] ['v] <-
   (v >> drop) compose while v ;
+
+min: 2dup < 'drop 'nip if ;
+max: 2dup > 'drop 'nip if ;
+neg: -1 * ;
+sign: (0 >) (drop 1)
+      (0 <) (drop -1)
+      'true () 3 cond ;
+abs: dup sign * ;
