@@ -1,0 +1,2 @@
+0 1 (dup 4000000 <) (dup rot + dup)
+produce 'even? select + .
