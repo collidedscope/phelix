@@ -8,20 +8,31 @@ require "phelix"
   exit
 {% end %}
 
-pre = File.read File.expand_path "prelude.phx", __DIR__
-Phelix.new(Phelix.tokenize pre).call
 
-if file = ARGV.shift?
-  abort "no such file: '#{file}'" unless File.exists? file
-  Phelix.new(Phelix.tokenize File.read file).call
-else
-  stack = [] of Phelix::Val
-  loop do
-    print "⧺ "
-    if expr = STDIN.gets
-      p Phelix.new(Phelix.tokenize expr).call stack
+class Phelix
+  pre = File.read File.expand_path "prelude.phx", __DIR__
+  new(tokenize pre).call
+
+  def self.main
+    if file = ARGV.shift?
+      abort "no such file: '#{file}'" unless File.exists? file
+      new(tokenize File.read file).call
     else
-      break
+      repl
+    end
+  end
+
+  def self.repl
+    stack = [] of Val
+    loop do
+      print "⧺ "
+      if expr = STDIN.gets
+        p new(tokenize expr).call stack
+      else
+        break
+      end
     end
   end
 end
+
+Phelix.main
