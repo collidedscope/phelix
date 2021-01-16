@@ -46,10 +46,14 @@ class Phelix
       next @@env[tok.rchop] = find.call ";", /:$/ if tok[-1] == ':'
 
       @insns << Insn.new *case
-      when n = tok.to_i? then {Type::Num, n.to_big_i}
-      when tok[0] == '"' then {Type::Str, tok[1..-2]}
-      when tok == "("    then {Type::Fun, find.call ")", "("}
-      else                    {Type::Word, tok}
+      when tok[/^-?\d+$/]?
+        {Type::Num, tok.to_big_i}
+      when tok[0] == '"'
+        {Type::Str, tok[1..-2]}
+      when tok == "("
+        {Type::Fun, find.call ")", "("}
+      else
+        {Type::Word, tok}
       end
     end
   end
