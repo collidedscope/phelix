@@ -1,1 +1,1 @@
-(gets dup) (eval ,) while
+'gets (eval ,) while*
