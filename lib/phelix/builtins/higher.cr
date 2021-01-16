@@ -17,7 +17,7 @@ class Phelix
 
   # takes two functions f and g and returns a function that calls f then g
   # ( f g -- (f g) )
-  defb "comp" { arity 2
+  defb "compose" { arity 2
     g, f = get Fun, Fun
     s << -> (t: Vec) {
       g.call f.call t
