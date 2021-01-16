@@ -66,3 +66,7 @@ flat1: [] ['v] <-
   (dup vec?
    ((v >> drop) each)
     (v >> drop) if) each v ;
+
+# TODO: This can definitely be a lot cleaner.
+cart*: [] ['b 'v] <-
+  (b (over swap 2 ->vec dup v >> drop) map drop) map drop v ;
