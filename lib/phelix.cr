@@ -123,7 +123,7 @@ class Phelix
   def self.tokenize(src)
     src
       .gsub(/#.*/, "") # strip comments
-      .gsub(/[)(}{\][]/, " \\0 ") # pad brackets for easy tokenization
+      .gsub(/(?<!")[)(}{\][]/, " \\0 ") # pad brackets for easy tokenization
       .split
   end
 
