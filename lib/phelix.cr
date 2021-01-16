@@ -30,7 +30,7 @@ class Phelix
     fn = [] of String
     nesting = 0
 
-    while t = ts.shift?
+    while t = toks.shift?
       if t == {{close}}
         break if nesting.zero?
         nesting -= 1
@@ -43,9 +43,9 @@ class Phelix
   end
 
   def parse
-    ts = @tokens.dup
+    toks = @tokens.dup
 
-    while tok = ts.shift?
+    while tok = toks.shift?
       next @@env[tok.rchop] = find ";", /:$/ if tok[-1] == ':'
 
       @insns << Insn.new *case
