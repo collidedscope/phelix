@@ -46,6 +46,7 @@ while*: ('dup compose) dip while drop ;
 prepose: swap compose ;
 
 reduce: swapd each ;
+zipwith: 'zip dip map ;
 
 replicate: [ ] ['v] <-
   (v >> drop) compose swap times v ;
