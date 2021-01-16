@@ -10,7 +10,7 @@ class Phelix
   alias Map = Hash(Val, Val)
   alias Fun = self | (Vec -> Vec)
 
-  enum Type; Num; Str; Fun; Word end
+  enum Type; Fun; Map; Num; Str; Vec; Word end
 
   record Insn, t : Type, v : Val
 
@@ -26,24 +26,27 @@ class Phelix
     parse
   end
 
+  macro find(close, reopen)
+    fn = [] of String
+    nesting = 0
+
+    while t = ts.shift?
+      if t == {{close}}
+        break if nesting.zero?
+        nesting -= 1
+      end
+      nesting += 1 if {{reopen}} === t
+      fn << t
+    end
+
+    Phelix.new fn
+  end
+
   def parse
     ts = @tokens.dup
-    find = ->(close : String, reopen : String | Regex) {
-      fn = [] of String
-      nesting = 0
-      while t = ts.shift?
-        if t == close
-          break if nesting.zero?
-          nesting -= 1
-        end
-        nesting += 1 if reopen === t
-        fn << t
-      end
-      Phelix.new fn
-    }
 
     while tok = ts.shift?
-      next @@env[tok.rchop] = find.call ";", /:$/ if tok[-1] == ':'
+      next @@env[tok.rchop] = find ";", /:$/ if tok[-1] == ':'
 
       @insns << Insn.new *case
       when tok[/^-?\d+$/]?
@@ -51,7 +54,15 @@ class Phelix
       when tok[0] == '"'
         {Type::Str, tok[1..-2]}
       when tok == "("
-        {Type::Fun, find.call ")", "("}
+        {Type::Fun, find ")", "("}
+      when tok == "["
+        {Type::Vec, find("]", "[").call}
+      when tok == "{"
+        vec = find("}", "{").call
+        abort "map literal must have even elements" if vec.size.odd?
+        m = Map.new false
+        vec.each_slice 2 { |(k, v)| m[k] = v }
+        {Type::Map, m}
       else
         {Type::Word, tok}
       end
@@ -63,6 +74,8 @@ class Phelix
       case insn.t
       when Type::Num, Type::Str, Type::Fun
         stack << insn.v
+      when Type::Map, Type::Vec
+        stack << insn.v.dup
       when Type::Word
         word = insn.v.as String
         if fn = @@env[word]?
@@ -110,9 +123,7 @@ class Phelix
   def self.tokenize(src)
     src
       .gsub(/#.*/, "") # strip comments
-      .gsub(/[)(]/, " \\0 ") # pad parens for easy tokenization
-      .gsub(/(?<!")\[([^\]]+)\]/) { "#{$1} #{$1.split.size} []" } # vectors
-      .gsub(/(?<!"){([^}]+)}/) { "#{$1} #{$1.split.size // 2} {}" } # maps
+      .gsub(/[)(}{\][]/, " \\0 ") # pad brackets for easy tokenization
       .split
   end
 

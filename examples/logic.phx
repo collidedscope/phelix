@@ -7,10 +7,10 @@ xor: eq not ;
 and: () (drop false) if ;
 or: (drop true) () if ;
 
-[false false]
-[false true]
-[true false]
-[true true] 4 []
+[[false false]
+ [false true]
+ [true false]
+ [true true]]
 
 "and" . dup (\ and) map .
 "or"  . dup (\ or)  map .

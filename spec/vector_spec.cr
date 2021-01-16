@@ -3,7 +3,7 @@ require "./spec_helper"
 describe Phelix do
   it "can construct vectors from the stack" do
     {
-      "4 2 0 3 []" \
+      "4 2 0 3 ->vec" \
       => [[4,2,0]]
     }.tests
   end

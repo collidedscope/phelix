@@ -1,6 +1,6 @@
 collatz': dup odd? (3 * 1 +) (2 /) if ;
 
-collatz: 0 [] swap
+collatz: [] swap
   (dup 1 =)
   (dup rot >> swap collatz')
   until << ;

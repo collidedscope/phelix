@@ -1,7 +1,7 @@
 class Phelix
   # vectorize the top N elements of the stack
   # [ e1 ... en N ] => [ [e1 ... en] ]
-  defb "[]" {
+  defb "->vec" {
     n = get Num
     arity n
     s << s.pop n.to_i
@@ -22,7 +22,7 @@ class Phelix
 
   # mapify the top 2N elements of the stack
   # [ k1 v1 ... kn vn N ] => [ {k1 v1 ... kn vn} ]
-  defb "{}" {
+  defb "->map" {
     m = Map.new false
     n = get Num
     arity n * 2
