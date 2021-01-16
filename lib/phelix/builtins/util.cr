@@ -64,6 +64,10 @@ class Phelix
     s << File.read get Str
   }
 
+  defb "rand" { arity 1
+    s << rand get Num
+  }
+
   defb "<-" { arity 1
     scope = @@scope.dup
     get(Vec).reverse_each do |id|
