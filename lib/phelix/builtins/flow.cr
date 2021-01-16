@@ -4,12 +4,14 @@ class Phelix
     (v ? c : a).as(Fun).call s
   }
 
-  defb "cond" {
-    n = get Num
-    arity n * 2
-    arms = Array(Tuple(Fun, Fun)).new(n) { get Fun, Fun }
-    arms.reverse_each do |fn, cond|
-      break fn.call s if cond.call(s.dup).last
+  defb "cond" { arity 1
+    get(Vec).each_slice 2 do |arm|
+      if arm[1]?
+        cond, fn = arm.map &.as Fun
+        break fn.call s if cond.call(s.dup).last
+      else
+        break arm[0].as(Fun).call s
+      end
     end
   }
 

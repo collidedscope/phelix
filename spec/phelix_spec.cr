@@ -51,9 +51,9 @@ describe Phelix do
 
   it "can do many-armed conditionals" do
     {
-      %(sign: (0 <) ("neg")
-              (0 >) ("pos")
-              (1 1 =) ("zero") 3 cond ;
+      %(sign: [(0 <) (drop "neg")
+               (0 >) (drop "pos")
+               ("zero")] cond ;
         [1 0 -1] 'sign map) \
       => [["pos", "zero", "neg"]]
     }.tests
