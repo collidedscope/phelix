@@ -43,7 +43,7 @@ when: () if ;
 when*: over 'call '2drop if ;
 while*: ('dup compose) dip while drop ;
 
-prepose: swap compose;
+prepose: swap compose ;
 
 reduce: swapd each ;
 
@@ -51,3 +51,5 @@ replicate: [ ] ['v] <-
   (v >> drop) compose swap times v ;
 accumulate: [ ] ['v] <-
   (over v >> drop) prepose reduce v ;
+produce: [ ] ['v] <-
+  (v >> drop) compose while v ;
