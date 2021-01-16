@@ -18,7 +18,7 @@ class Phelix
   @@env = {} of String => Fun
   @@scope = [] of String
   @@locals = {} of Array(String) => Hash(String, Val)
-
+  @@strings = [] of String
   @tokens = [] of String
   @insns = [] of Insn
 
@@ -51,8 +51,8 @@ class Phelix
       @insns << Insn.new *case
       when tok[/^-?\d+$/]?
         {Type::Num, tok.to_big_i}
-      when tok[0] == '"'
-        {Type::Str, tok[1..-2]}
+      when tok == "\0"
+        {Type::Str, @@strings.shift}
       when tok == "("
         {Type::Fun, find ")", "("}
       when tok == "["
@@ -123,7 +123,8 @@ class Phelix
   def self.tokenize(src)
     src
       .gsub(/#.*/, "") # strip comments
-      .gsub(/(?<!")[)(}{\][]/, " \\0 ") # pad brackets for easy tokenization
+      .gsub(/"([^"]*)"/) { @@strings << $1; '\0' } # carve out strings
+      .gsub(/[)(}{\][]/, " \\0 ") # pad brackets for easy tokenization
       .split
   end
 
