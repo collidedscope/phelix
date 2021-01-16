@@ -52,6 +52,10 @@ class Phelix
     end
   }
 
+  defb "puts" { arity 1
+    puts s.pop
+  }
+
   defb "argv" {
     s << ARGV.map &.as Val
   }
@@ -71,5 +75,11 @@ class Phelix
   # removes all errors from the stack
   defb "e" {
     s.reject! Err
+  }
+
+  defb "source" { arity 1
+    if bin = env.key_for? get Proc
+      s << @@sources[bin]
+    end
   }
 end

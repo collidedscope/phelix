@@ -122,6 +122,7 @@ class Phelix
     BigInt => :Num,
     Array(Val) => :Vec,
     Hash(Val, Val) => :Map,
+    Proc => :Builtin
   }
 
   def self.alias_for(type)
@@ -132,9 +133,9 @@ end
 struct Proc
   def inspect(io)
     if builtin = Phelix.env.key_for? self
-      io << "builtin##{builtin}(#{Phelix.sources[builtin]})"
+      io << "builtin##{builtin}"
     else
-      io << 'λ' # curried functions TODO: make them inspectable
+      io << 'λ' # curried/composed functions TODO: make them inspectable
     end
   end
 end
