@@ -61,3 +61,8 @@ neg: -1 * ;
 sign: [(0 >) (drop 1)
        (0 <) (drop -1)] cond ;
 abs: dup sign * ;
+
+flat1: [] ['v] <-
+  (dup vec?
+   ((v >> drop) each)
+    (v >> drop) if) each v ;
