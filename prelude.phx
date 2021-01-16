@@ -40,3 +40,12 @@ forever: 'true swap while ;
 
 unless: swap if ;
 when: () if ;
+
+prepose: swap compose;
+
+reduce: swapd each ;
+
+replicate: [ ] ['v] <-
+  (v >> drop) compose swap times v ;
+accumulate: [ ] ['v] <-
+  (over v >> drop) prepose reduce v ;
