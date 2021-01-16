@@ -87,22 +87,22 @@ class Phelix
 
   defb "map" { arity 2
     fn, vec = get Fun, Vec
-    s << vec.map { |e| fn.call([e]).last.as Val }
+    s << vec.map { |e| fn.call(s << e).pop.as Val }
   }
 
   defb "select" { arity 2
     fn, vec = get Fun, Vec
-    s << vec.select { |e| fn.call([e]).last.as Val }
+    s << vec.select { |e| fn.call(s << e).pop.as Val }
   }
 
   defb "reject" { arity 2
     fn, vec = get Fun, Vec
-    s << vec.reject { |e| fn.call([e]).last.as Val }
+    s << vec.reject { |e| fn.call(s << e).pop.as Val }
   }
 
   defb "maxby" { arity 2
     fn, enu = get Fun, Vec
-    s << enu.max_by { |e| fn.call([e]).last.as Num }
+    s << enu.max_by { |e| fn.call(s << e).pop.as Num }
   }
 
   defb "zip" { arity 2
