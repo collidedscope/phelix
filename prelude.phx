@@ -62,10 +62,8 @@ sign: [(0 >) (drop 1)
        (0 <) (drop -1)] cond ;
 abs: dup sign * ;
 
-flat1: [] ['v] <-
-  (dup vec?
-   ((v >> drop) each)
-    (v >> drop) if) each v ;
+flat1: [] swap
+  (dup vec? ('<< each) '<< if) each ;
 
 # TODO: This can definitely be a lot cleaner.
 cart*: [] ['b 'v] <-
