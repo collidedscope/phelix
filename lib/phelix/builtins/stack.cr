@@ -42,6 +42,12 @@ class Phelix
     s.delete_at -2
   }
 
+  # removes the second- and third-top values of the stack
+  # ( a b c -- c )
+  defb "2nip" { arity 3
+    s.delete_at -3, 2
+  }
+
   # buries a copy of the top value beneath the second-top value
   # ( a b -- b a b )
   defb "tuck" { arity 2
