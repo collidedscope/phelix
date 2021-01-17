@@ -118,6 +118,10 @@ class Phelix
     s << get(Vec).to_set.map &.as Val
   }
 
+  defb "rev" { arity 1
+    s << get(Str | Vec).reverse
+  }
+
   defb "v*" { arity 2
     n, v = get Num, Vec
     tmp = Vec.new
