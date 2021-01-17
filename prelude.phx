@@ -65,9 +65,8 @@ abs: dup sign * ;
 flat1: [] swap
   (dup vec? ('<< each) '<< if) each ;
 
-# TODO: This can definitely be a lot cleaner.
-cart*: [] ['b 'v] <-
-  (b (over swap 2 ->vec dup v >> drop) map drop) map drop v ;
+cart*: swap
+  (over (dupd 2 ->vec) map nip) map nip flat1 ;
 
 /%: '/ '% 2bi ;
 digits: (dup 0 >) (10 /%) produce nip ;
