@@ -82,8 +82,11 @@ class Phelix
   }
 
   defb "source" { arity 1
-    if bin = env.key_for? get Proc
-      s << @@sources[bin]
+    fn = get Fun
+    if fn.is_a? Phelix
+      s << fn.@insns.map &.v.as Val
+    else
+      s << @@sources[env.key_for fn]
     end
   }
 end

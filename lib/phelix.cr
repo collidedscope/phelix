@@ -19,18 +19,16 @@ class Phelix
   @@scope = [] of String
   @@locals = {} of Array(String) => Hash(String, Val)
   @@strings = [] of String
-  @tokens = [] of String
-  @insns = [] of Insn
 
-  def initialize(@tokens)
-    parse
+  def initialize(@tokens = [] of String, @insns = [] of Insn)
+    parse if @insns.empty?
   end
 
   macro find(close, reopen)
     fn = [] of String
     nesting = 0
 
-    while t = toks.shift?
+    while t = @tokens.shift?
       if t == {{close}}
         break if nesting.zero?
         nesting -= 1
@@ -43,9 +41,7 @@ class Phelix
   end
 
   def parse
-    toks = @tokens.dup
-
-    while tok = toks.shift?
+    while tok = @tokens.shift?
       next @@env[tok.rchop] = find ";", /:$/ if tok[-1] == ':'
 
       @insns << Insn.new *case
@@ -117,7 +113,8 @@ class Phelix
     if name = @@env.key_for? self
       io << name
     end
-    io << "(#{@tokens.join ' '})"
+    insns = @insns.map { |i| i.t == Type::Fun ? i.v.inspect : i.v }
+    io << "(#{insns.join ' '})"
   end
 
   def self.tokenize(src)
@@ -148,10 +145,6 @@ end
 
 struct Proc
   def inspect(io)
-    if builtin = Phelix.env.key_for? self
-      io << "builtin##{builtin}"
-    else
-      io << 'λ' # curried/composed functions TODO: make them inspectable
-    end
+    io << Phelix.env.key_for self
   end
 end
