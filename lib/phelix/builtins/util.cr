@@ -10,7 +10,7 @@ class Phelix
   }
 
   defb "eval" { arity 1
-    new(tokenize get Str).call s
+    Phelix[get Str].call s
   }
 
   defb "len" { arity 1

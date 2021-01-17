@@ -125,6 +125,10 @@ class Phelix
       .split
   end
 
+  def self.[](code)
+    new tokenize code
+  end
+
   def self.env
     @@env
   end

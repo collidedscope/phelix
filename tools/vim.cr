@@ -14,7 +14,7 @@ builtin = clean Phelix.env.keys
 
 pre = File.read File.expand_path "../prelude.phx", __DIR__
 Phelix.env.clear
-Phelix.new(Phelix.tokenize pre).call
+Phelix[pre].call
 prelude = clean Phelix.env.keys
 
 puts "syn keyword phxBuiltin #{builtin.join ' '}"

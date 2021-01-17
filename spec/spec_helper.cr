@@ -2,7 +2,7 @@ require "spec"
 require "phelix"
 
 def run_phelix(src)
-  Phelix.new(Phelix.tokenize src).call
+  Phelix[src].call
 end
 
 class Hash
