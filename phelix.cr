@@ -23,7 +23,7 @@ class Phelix
   end
 
   def self.repl
-    stack = [] of Val
+    stack = Vec.new
     loop do
       print "⧺ "
       if expr = STDIN.gets

@@ -83,10 +83,10 @@ class Phelix
 
   defb "source" { arity 1
     fn = get Fun
-    if fn.is_a? Phelix
-      s << fn.@insns.map &.v.as Val
-    else
-      s << @@sources[env.key_for fn]
-    end
+    return s << @@sources[env.key_for fn] if fn.is_a? Proc
+
+    s << fn.@insns.map { |i|
+      (i.t == Type::Word ? env.fetch(i.v, i.v) : i.v).as Val
+    }
   }
 end
