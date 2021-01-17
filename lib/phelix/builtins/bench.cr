@@ -1,7 +1,12 @@
 class Phelix
+  @@bench_warn = true
+
   defb "bench" { arity 1
     {% unless flag? :release %}
-      STDERR.puts Err.new "benchmarking with unoptimized interprter"
+      if @@bench_warn
+        STDERR.puts Err.new "benchmarking with unoptimized interpreter"
+        @@bench_warn = false
+      end
     {% end %}
 
     n = 10
