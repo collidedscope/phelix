@@ -12,6 +12,12 @@ class Phelix
     s << s[-2]
   }
 
+  # duplicates the value one under the top of the stack
+  # ( a b -- a a b )
+  defb "dupd" { arity 2
+    s.insert -2, s[-2]
+  }
+
   # exchanges the two values at the top of the stack
   # ( a b -- b a )
   defb "swap" { arity 2
