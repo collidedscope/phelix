@@ -21,6 +21,7 @@ class Phelix
   @@strings = [] of String
 
   def initialize(@tokens = [] of String, @insns = [] of Insn)
+    @closed = {} of String => Val
     parse if @insns.empty?
   end
 
@@ -97,6 +98,10 @@ class Phelix
   end
 
   def resolve_local(word)
+    if closed = @closed[word]?
+      return closed
+    end
+
     scope = @@scope.dup
 
     loop do
