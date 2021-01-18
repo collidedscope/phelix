@@ -130,7 +130,13 @@ class Phelix
     if name = @@env.key_for? self
       io << name
     end
-    insns = @insns.map { |i| i.t == Type::Fun ? i.v.inspect : i.v }
+    insns = @insns.map { |i|
+      case i.t
+      when Type::Fun ; i.v.inspect
+      when Type::Word; @@env.fetch(i.v) { resolve_local i.v }.inspect
+      else i.v
+      end
+    }
     io << "(#{insns.join ' '})"
   end
 
