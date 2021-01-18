@@ -121,7 +121,7 @@ class Phelix
     src
       .gsub(/#.*/, "") # strip comments
       .gsub(/"([^"]*)"/) { @@strings << $1; '\0' } # carve out strings
-      .gsub(/[)(}{\][]/, " \\0 ") # pad brackets for easy tokenization
+      .gsub(/[;)(}{\][]/, " \\0 ") # padding to simplify parsing
       .split
   end
 
