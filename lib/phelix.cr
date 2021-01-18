@@ -100,8 +100,6 @@ class Phelix
   end
 
   def close
-    return unless @closed.empty?
-
     @@locals.each do |_, vars|
       vars.each do |name, val|
         @closed[name] = val
