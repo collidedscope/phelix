@@ -40,13 +40,4 @@ class Phelix
     g = g.is_a?(Phelix) ? g.@insns : [as_insn g]
     s << new insns: f + g
   }
-
-  defb "close" { arity 1
-    fn = peek Phelix
-    @@locals.each do |_, vars|
-      vars.each do |name, val|
-        fn.@closed[name] = val
-      end
-    end
-  }
 end

@@ -68,6 +68,8 @@ class Phelix
 
   def call(stack = Vec.new)
     @insns.each do |insn|
+      insn.v.as(Phelix).close if insn.v.is_a? Phelix
+
       case insn.t
       when Type::Num, Type::Str, Type::Fun
         stack << insn.v
@@ -95,6 +97,16 @@ class Phelix
     end
 
     stack
+  end
+
+  def close
+    return unless @closed.empty?
+
+    @@locals.each do |_, vars|
+      vars.each do |name, val|
+        @closed[name] = val
+      end
+    end
   end
 
   def resolve_local(word)
