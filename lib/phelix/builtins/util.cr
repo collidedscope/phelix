@@ -70,7 +70,10 @@ class Phelix
 
   defb "<-" { arity 1
     scope = @@scope.dup
-    get(Vec).reverse_each do |id|
+    vars = get Vec
+    arity vars.size
+
+    vars.reverse_each do |id|
       @@locals[scope] ||= {} of String => Val
       @@locals[scope][id.as Str] = s.pop
     end
