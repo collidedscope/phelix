@@ -1,6 +1,11 @@
 class Phelix
   macro raise(message)
-    return s << Err.new {{message}}
+    e = Err.new {{message}}
+    if @@fatal
+      abort e
+    else
+      return s << e
+    end
   end
 
   macro fail(wanted, got)
