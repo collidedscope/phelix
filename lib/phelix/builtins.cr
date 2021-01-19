@@ -45,14 +45,6 @@ class Phelix
   @@docs = {} of String => {String, Int32}
   @@sources = {} of String => String
 
-  def self.docs
-    @@docs
-  end
-
-  def self.sources
-    @@sources
-  end
-
   macro defb(word, &body)
     {% if flag?(:ocs) %}
       @@docs[{{word}}] = {__FILE__, __LINE__}
