@@ -6,7 +6,7 @@ class Phelix
     end
 
     def inspect(io)
-      io << @message.colorize :red
+      io << @message.colorize :light_red
     end
   end
 end
