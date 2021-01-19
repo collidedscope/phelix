@@ -38,7 +38,7 @@ class Phelix
     begin
       s << m[k]
     rescue KeyError
-      s << Err.new "no such key '#{k}' for get"
+      raise "no such key '#{k}' for get"
     end
   }
 
