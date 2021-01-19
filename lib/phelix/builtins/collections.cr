@@ -35,7 +35,11 @@ class Phelix
 
   defb "get" { arity 2
     k, m = get Val, Map
-    s << m[k]
+    begin
+      s << m[k]
+    rescue KeyError
+      s << Err.new "no such key '#{k}' for get"
+    end
   }
 
   defb "put" { arity 3

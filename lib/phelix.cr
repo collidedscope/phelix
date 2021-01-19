@@ -56,8 +56,11 @@ class Phelix
         {Type::Vec, find("]", "[").call}
       when tok == "{"
         vec = find("}", "{").call
-        abort "map literal must have even elements" if vec.size.odd?
-        m = Map.new false
+        if vec.size.odd?
+          m = Map.new vec.pop
+        else
+          m = Map.new
+        end
         vec.each_slice 2 { |(k, v)| m[k] = v }
         {Type::Map, m}
       else
@@ -71,10 +74,8 @@ class Phelix
       insn.v.as(Phelix).close if insn.v.is_a? Phelix
 
       case insn.t
-      when Type::Num, Type::Str, Type::Fun
+      when Type::Num, Type::Str, Type::Fun, Type::Map, Type::Vec
         stack << insn.v
-      when Type::Map, Type::Vec
-        stack << insn.v.dup
       when Type::Word
         word = insn.v.as String
         if fn = @@env[word]?
