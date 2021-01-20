@@ -76,8 +76,10 @@ class Phelix
       insn.v.as(Phelix).close if insn.v.is_a? Phelix
 
       case insn.t
-      when Type::Num, Type::Str, Type::Fun, Type::Map, Type::Vec
+      when Type::Num, Type::Str, Type::Fun
         stack << insn.v
+      when Type::Map, Type::Vec
+        stack << insn.v.dup
       when Type::Word
         word = insn.v.as String
         if fn = @@env[word]?
