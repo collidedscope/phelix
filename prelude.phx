@@ -72,4 +72,8 @@ cart*: swap
 digits: (dup 0 >) (10 /%) produce nip ;
 digits/b: (dup 0 >) (over /%) produce 2nip ;
 
++1: 1 + ;
+-1: 1 - ;
+0?: 0 = ;
+
 update: pick pick get swap call put drop ;
