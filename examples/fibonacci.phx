@@ -6,12 +6,12 @@ fib: dup 2 <
 10 fib .
 
 # "local" variable declared at top level (basically global)
-{0 1 1 1} ['memo] <-
+{0 1 1 1 false} ['memo] <-
 
 # memoized recursive definition takes advantage of maps being reference "types"
 memofib:
   dup memo swap get dup
-  (swap drop)
+  'nip
   (drop dup dup dup
    1 - memofib swap 2 - memofib +
    memo rot rot put swap get) if ;
