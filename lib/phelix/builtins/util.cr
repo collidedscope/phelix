@@ -56,6 +56,10 @@ class Phelix
     puts s.pop
   }
 
+  defb "print" { arity 1
+    print s.pop
+  }
+
   defb "argv" {
     s << ARGV.map &.as Val
   }

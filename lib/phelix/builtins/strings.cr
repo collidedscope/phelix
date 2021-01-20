@@ -26,4 +26,8 @@ class Phelix
   defb "s/chars" { arity 1
     s << get(Str).chars.map &.to_s.as Val
   }
+
+  defb "chr" { arity 1
+    s << get(Num).to_i.chr.to_s
+  }
 end
