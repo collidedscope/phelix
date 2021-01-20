@@ -45,7 +45,7 @@ class Phelix
   }
 
   defb "getb" {
-    s << ((b = STDIN.read_byte) ? b.to_big_i : false)
+    s << (STDIN.read_byte || -1).to_big_i
   }
 
   defb "getc" {
