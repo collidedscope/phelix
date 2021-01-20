@@ -1,6 +1,7 @@
 require "big"
 require "phelix/builtins"
 require "phelix/err"
+require "phelix/core_ext/*"
 
 class Phelix
   alias Num = BigInt
@@ -167,14 +168,4 @@ class Phelix
   def self.alias_for(type)
     ALIASES.fetch type, type
   end
-end
-
-struct Proc
-  def inspect(io)
-    io << Phelix.env.key_for self
-  end
-end
-
-struct BigInt
-  def_hash to_i64
 end
