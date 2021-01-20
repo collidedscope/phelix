@@ -12,8 +12,6 @@ pre = File.read File.expand_path "prelude.phx", __DIR__
 Phelix[pre].call
 
 class Phelix
-  @@fatal = true
-
   def self.main
     if file = ARGV.shift?
       abort "no such file: '#{file}'" unless File.exists? file
