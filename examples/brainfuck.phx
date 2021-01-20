@@ -1,0 +1,25 @@
+"++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>
+---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++." s/chars
+
+("[]<>+-.," in) select dup len ['insns 'ilen] <-
+
+{} []
+insns ([("[" =) (drop <<)
+        ("]" =) (drop 'pop dip roll -rot put swap)
+       '2drop] cond) each/i
+drop dup invert merge
+{0} ['jumps 'tape] <-
+
+cell: pick tape swap ;
+jump: jumps rot get swap ;
+
+0 0 (dup ilen <) (insns over nth [
+  ("<" =) ('-1 2dip)
+  (">" =) ('+1 2dip)
+  ("-" =) (cell '-1 update)
+  ("+" =) (cell '+1 update)
+  ("," =) (cell getb put*)
+  ("." =) (cell get chr print)
+  ("[" =) (cell get 0? 'jump when)
+  ("]" =) (cell get 0? not 'jump when)
+] cond drop 1 +) while
