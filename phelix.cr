@@ -23,14 +23,14 @@ class Phelix
 
   def self.repl
     @@fatal = false
-
     stack = Vec.new
+
     loop do
       print "⧺ "
       if expr = STDIN.gets
         p Phelix[expr].call stack
       else
-        break
+        break puts
       end
     end
   end
