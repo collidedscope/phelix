@@ -44,6 +44,14 @@ class Phelix
     end
   }
 
+  defb "getb" {
+    s << ((b = STDIN.read_byte) ? b.to_big_i : false)
+  }
+
+  defb "getc" {
+    s << ((c = STDIN.read_char) ? c.to_s : false)
+  }
+
   defb "gets" {
     if t = gets
       s << t
