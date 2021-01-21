@@ -27,7 +27,7 @@ class Phelix
   # partially applies f to a, leaving the new function at the top of the stack
   # ( a f -- f )
   defb "curry" { arity 2
-    fn, val = get Fun, Val
+    val, fn = get Val, Fun
     base = fn.is_a?(Phelix) ? fn.@insns : [as_insn fn]
     s << new insns: [as_insn val] + base
   }
@@ -35,7 +35,7 @@ class Phelix
   # takes two functions f and g and returns a function that calls f then g
   # ( f g -- (f g) )
   defb "compose" { arity 2
-    g, f = get Fun, Fun
+    f, g = get Fun, Fun
     f = f.is_a?(Phelix) ? f.@insns : [as_insn f]
     g = g.is_a?(Phelix) ? g.@insns : [as_insn g]
     s << new insns: f + g

@@ -1,7 +1,7 @@
 class Phelix
   defb "if" { arity 3
-    a, c, v = get Fun, Fun, Val
-    (v ? c : a).as(Fun).call s
+    v, yes, no = get Val, Fun, Fun
+    (v ? yes : no).call s
   }
 
   defb "cond" { arity 1
@@ -16,32 +16,32 @@ class Phelix
   }
 
   defb "while" { arity 2
-    body, test = get Fun, Fun
+    test, body = get Fun, Fun
     while test.call(s).pop
       s.replace body.call(s)
     end
   }
 
   defb "until" { arity 2
-    body, test = get Fun, Fun
+    test, body = get Fun, Fun
     until test.call(s).pop
       s.replace body.call(s)
     end
   }
 
   defb "times" { arity 2
-    n, body = get Num, Fun
-    n.times { body.call s }
+    fn, n = get Fun, Num
+    n.times { fn.call s }
   }
 
   defb "each" { arity 2
-    fn = get Fun
-    get(Vec).each { |e| fn.call s << e }
+    vec, fn = get Vec, Fun
+    vec.each { |e| fn.call s << e }
   }
 
   defb "each/i" { arity 2
-    fn = get Fun
-    get(Vec).each_with_index { |e, i| fn.call s << i.to_big_i << e }
+    vec, fn = get Vec, Fun
+    vec.each_with_index { |e, i| fn.call s << i.to_big_i << e }
   }
 
   defb "call" { arity 1

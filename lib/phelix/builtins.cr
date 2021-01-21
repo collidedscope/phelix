@@ -12,19 +12,11 @@ class Phelix
     raise "wanted #{alias_for {{wanted}}} for #{@@now}, got #{{{got}}.inspect}"
   end
 
-  macro check(type)
+  macro check(val, type)
     begin
-      (v = s.pop).as {{type}}
+      {{val}}.as {{type}}
     rescue TypeCastError
-      fail {{type}}, v
-    end
-  end
-
-  macro peek(type, pos = -1)
-    begin
-      (v = s[{{pos}}]).as {{type}}
-    rescue TypeCastError
-      fail {{type}}, v
+      fail {{type}}, {{val}}
     end
   end
 
@@ -34,12 +26,18 @@ class Phelix
     end
   end
 
+  macro get(type)
+    val = s.pop
+    check val, {{type}}
+  end
+
   macro get(*types)
-    {% if types.size > 1 %}
-      { {% for t in types %} check({{t}}), {% end %} }
-    {% else %}
-      check {{types[0]}}
-    {% end %}
+    vals = s.pop {{types.size}}
+    {
+      {% for t in types %}
+        (v = vals.shift; check(v, {{t}})),
+      {% end %}
+    }
   end
 
   @@docs = {} of String => {String, Int32}

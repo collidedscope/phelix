@@ -8,14 +8,14 @@ class Phelix
   }
 
   defb "s/split" { arity 2
-    d, t = get Str, Str
+    t, d = get Str, Str
     o = Vec.new
     t.split(d).each { |v| o << v }
     s << o
   }
 
   defb "s/slice" { arity 3
-    e, b, t = get Num, Num, Str
+    t, b, e = get Str, Num, Num
     s << t[b..e]
   }
 

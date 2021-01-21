@@ -8,12 +8,12 @@ class Phelix
   }
 
   defb "nth" { arity 2
-    n, v = get Num, Vec
+    v, n = get Vec, Num
     s << v[n]
   }
 
   defb "pop" { arity 1
-    s << peek(Vec).pop
+    s << get(Vec).pop
   }
 
   defb "\\" { arity 1
@@ -34,7 +34,7 @@ class Phelix
   }
 
   defb "get" { arity 2
-    k, m = get Val, Map
+    m, k = get Map, Val
     begin
       s << m[k]
     rescue KeyError
@@ -43,7 +43,7 @@ class Phelix
   }
 
   defb "put" { arity 3
-    v, k, m = get Val, Val, Map
+    m, k, v = get Map, Val, Val
     m[k] = v
     s << m
   }
@@ -53,21 +53,22 @@ class Phelix
   }
 
   defb "merge" { arity 2
-    s << get(Map).merge get(Map)
+    a, b = get Map, Map
+    s << a.merge b
   }
 
   defb "<<" { arity 2
-    n, e = get Val, Vec
-    s << (e.as(Vec) << n)
+    vec, v = get Vec, Val
+    s << (vec << v)
   }
 
   defb ">>" { arity 2
-    e, n = get Vec, Val
-    s << (e.as(Vec) << n)
+    v, vec = get Val, Vec
+    s << (vec << v)
   }
 
   defb "in" { arity 2
-    haystack, needle = get Str | Vec, Val
+    needle, haystack = get Val, Str | Vec
     s << case haystack
          when Str; haystack.includes? needle.as Str
          else haystack.includes? needle
@@ -75,13 +76,13 @@ class Phelix
   }
 
   defb "sort" { arity 1
-    enu = get Vec
-    tmp = Vec.new enu.size
+    vec = get Vec
+    tmp = Vec.new vec.size
 
-    if enu.all? &.class.== Str
-      enu.map(&.as Str).sort.each { |e| tmp << e }
-    elsif enu.all? &.class.== Num
-      enu.map(&.as Num).sort.each { |e| tmp << e }
+    if vec.all? &.class.== Str
+      vec.map(&.as Str).sort.each { |e| tmp << e }
+    elsif vec.all? &.class.== Num
+      vec.map(&.as Num).sort.each { |e| tmp << e }
     else
       raise "can't sort heterogeneous array"
     end
@@ -90,27 +91,27 @@ class Phelix
   }
 
   defb "map" { arity 2
-    fn, vec = get Fun, Vec
+    vec, fn = get Vec, Fun
     s << vec.map { |e| fn.call(s << e).pop.as Val }
   }
 
   defb "select" { arity 2
-    fn, vec = get Fun, Vec
+    vec, fn = get Vec, Fun
     s << vec.select { |e| fn.call(s << e).pop.as Val }
   }
 
   defb "reject" { arity 2
-    fn, vec = get Fun, Vec
+    vec, fn = get Vec, Fun
     s << vec.reject { |e| fn.call(s << e).pop.as Val }
   }
 
   defb "maxby" { arity 2
-    fn, enu = get Fun, Vec
-    s << enu.max_by { |e| fn.call(s << e).pop.as Num }
+    vec, fn = get Vec, Fun
+    s << vec.max_by { |e| fn.call(s << e).pop.as Num }
   }
 
   defb "zip" { arity 2
-    b, a = get Vec, Vec
+    a, b = get Vec, Vec
     raise "(zip) length mismatch" unless a.size == b.size
 
     tmp = Vec.new a.size
@@ -127,9 +128,9 @@ class Phelix
   }
 
   defb "v*" { arity 2
-    n, v = get Num, Vec
+    vec, n = get Vec, Num
     tmp = Vec.new
-    n.times { tmp.concat v }
+    n.times { tmp.concat vec }
     s << tmp
   }
 end

@@ -24,7 +24,7 @@ class Phelix
 
   # range [a b] => [a a+1 ... b]
   defb ".." { arity 2
-    n, m = get Num, Num
+    m, n = get Num, Num
     tmp = Vec.new (m - n).abs + 1
     if m < n
       m.upto(n) { |e| tmp << e }
@@ -35,7 +35,7 @@ class Phelix
   }
 
   defb "++" { arity 2
-    b, a = get Str | Vec, Str | Vec
+    a, b = get Str | Vec, Str | Vec
     case a
     when Str
       s << a.as Str + b.as Str
