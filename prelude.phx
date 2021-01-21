@@ -78,3 +78,5 @@ digits/b: (dup 0 >) (over /%) produce 2nip ;
 
 put*: put drop ;
 update: pick pick get swap call put* ;
+
+pop*: dup pop ;

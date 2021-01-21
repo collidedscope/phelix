@@ -5,7 +5,7 @@
 
 {} []
 insns ([("[" =) (drop <<)
-        ("]" =) (drop 'pop dip roll -rot put swap)
+        ("]" =) (drop 'pop* dip roll -rot put swap)
        '2drop] cond) each/i
 drop dup invert merge
 {0} ['jumps 'tape] <-
