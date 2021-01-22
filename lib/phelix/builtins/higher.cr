@@ -40,4 +40,15 @@ class Phelix
     g = g.is_a?(Phelix) ? g.@insns : [as_insn g]
     s << new insns: f + g
   }
+
+  defb "eval" { arity 1
+    case v = s.pop
+    when Str
+      Phelix[v].call s
+    when Vec
+      new(insns: v.map &->as_insn(Val)).call s
+    else
+      raise "expected Str | Vec for eval, got #{v.inspect}"
+    end
+  }
 end

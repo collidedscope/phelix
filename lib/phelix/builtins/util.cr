@@ -9,10 +9,6 @@ class Phelix
     p s
   }
 
-  defb "eval" { arity 1
-    Phelix[get Str].call s
-  }
-
   defb "len" { arity 1
     case v = s.pop
     when Vec, Str
