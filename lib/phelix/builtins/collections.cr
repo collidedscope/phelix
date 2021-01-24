@@ -9,6 +9,9 @@ class Phelix
 
   defb "nth" { arity 2
     v, n = get Vec, Num
+    if n >= v.size || n < -v.size
+      raise "index #{n} out of bounds for nth"
+    end
     s << v[n]
   }
 
