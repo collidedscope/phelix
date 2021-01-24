@@ -100,4 +100,12 @@ class Phelix
       (i.t == Type::Word ? env.fetch(i.v, i.v) : i.v).as Val
     }
   }
+
+  defb "num->str" { arity 1
+    s << get(Num).to_s
+  }
+
+  defb "str->num" { arity 1
+    s << get(Str).to_big_i
+  }
 end
