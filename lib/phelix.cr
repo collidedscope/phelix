@@ -11,7 +11,7 @@ class Phelix
   alias Map = Hash(Val, Val)
   alias Fun = self | (Vec -> Vec)
 
-  enum Type; Fun; Map; Num; Str; Vec; Word end
+  enum Type; Fun; Map; Num; Str; Sym; Vec; Word end
 
   record Insn, t : Type, v : Val
 
@@ -52,6 +52,8 @@ class Phelix
         {Type::Num, tok.to_big_i}
       when tok == "\0"
         {Type::Str, @@strings.shift}
+      when tok[0] == '\''
+        {Type::Sym, tok.lchop}
       when tok == "("
         {Type::Fun, find ")", "("}
       when tok == "["
@@ -80,6 +82,8 @@ class Phelix
         stack << insn.v
       when Type::Map, Type::Vec
         stack << insn.v.dup
+      when Type::Sym
+        stack << @@env.fetch word = insn.v, word
       when Type::Word
         word = insn.v.as String
         if fn = @@env[word]?
@@ -92,9 +96,6 @@ class Phelix
           elsif fn.is_a? Proc
             fn.call stack
           end
-        elsif word[0] == '\''
-          word = word.lchop
-          stack << @@env.fetch word, word
         else
           stack << resolve_local(word).not_nil!
         end
