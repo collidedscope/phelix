@@ -5,4 +5,11 @@ collatz: [] swap
   (dup rot >> swap collatz')
   until << ;
 
-1 1000 .. (collatz len) maxby .
+collatz-len: 1 swap
+  (dup 1 >) (collatz' '+1 dip) while drop ;
+
+a: 1 1000 .. (collatz len) maxby ;
+b: 1 1000 .. (collatz-len) maxby ;
+
+'a bench
+'b bench
