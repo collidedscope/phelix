@@ -22,4 +22,4 @@ jump: jumps rot get swap ;
   ("." =) (cell get chr print)
   ("[" =) (cell get 0? 'jump when)
   ("]" =) (cell get 0? not 'jump when)
-] cond drop 1 +) while
+] cond drop +1) while
