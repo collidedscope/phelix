@@ -65,6 +65,9 @@ abs: dup sign * ;
 flat1: [] swap
   (dup vec? ('<< each) '<< if) each ;
 
+gcd: dup 0? 'drop (tuck % gcd) if ;
+lcm: 2dup gcd '* dip / ;
+
 cart*: swap
   (over (dupd 2 ->vec) map nip) map nip flat1 ;
 
