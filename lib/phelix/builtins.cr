@@ -13,10 +13,11 @@ class Phelix
   end
 
   macro check(val, type)
+    v = {{val}}
     begin
-      {{val}}.as {{type}}
+      v.as {{type}}
     rescue TypeCastError
-      fail {{type}}, {{val}}
+      fail {{type}}, v
     end
   end
 
@@ -27,15 +28,14 @@ class Phelix
   end
 
   macro get(type)
-    val = s.pop
-    check val, {{type}}
+    check s.pop, {{type}}
   end
 
   macro get(*types)
     vals = s.pop {{types.size}}
     {
       {% for t in types %}
-        (v = vals.shift; check(v, {{t}})),
+        check(vals.shift, {{t}}),
       {% end %}
     }
   end
