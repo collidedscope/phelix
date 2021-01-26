@@ -17,6 +17,10 @@ class Phelix
     s << v.pop
   end
 
+  dbi "insert", Vec, Num, Val do |vec, i, v|
+    s << vec.insert i, v
+  end
+
   dbi "\\", Vec do |v|
     v.each { |e| s << e }
   end

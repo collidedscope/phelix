@@ -30,6 +30,10 @@ class Phelix
     n.times { fn.call s }
   end
 
+  dbi "times/i", Fun, Num do |fn, n|
+    n.times { |i| fn.call s << i }
+  end
+
   dbi "each", Vec, Fun do |vec, fn|
     vec.each { |e| fn.call s << e }
   end
