@@ -89,3 +89,6 @@ put*: put drop ;
 update: pick pick get swap call put* ;
 
 pop*: dup pop ;
+
+.>.: dup 0 > ('<=) ('>=) if ['end 'skip 'cmp] <-
+  (dup end cmp call) ((skip +) keep) produce nip ;
