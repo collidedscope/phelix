@@ -8,6 +8,12 @@ require "phelix"
   exit
 {% end %}
 
+require "fancyline"
+
+# TODO: Follow XDG specification.
+HISTFILE = "history"
+File.touch HISTFILE
+
 pre = File.read File.expand_path "prelude.phx", __DIR__
 Phelix[pre].call
 
@@ -25,14 +31,32 @@ class Phelix
     @@fatal = false
     stack = Vec.new
 
-    loop do
-      print "⧺ "
-      if expr = STDIN.gets
-        p Phelix[expr].call stack
+    fancy = Fancyline.new
+    hist = fancy.history
+    widget = Fancyline::Widget::History.new
+
+    fancy.actions.set Fancyline::Key::Control::CtrlP do |ctx|
+      if widget.@history
+        widget.show_entry ctx, -1
       else
-        break puts
+        ctx.start_widget widget
       end
     end
+
+    fancy.actions.set Fancyline::Key::Control::CtrlN do |ctx|
+      if widget.@history
+        widget.show_entry ctx, +1
+      end
+    end
+
+    at_exit { File.open HISTFILE, "w", &->hist.save(IO) }
+    File.open HISTFILE, "r", &->hist.load(IO)
+
+    while expr = fancy.readline "⧺ "
+      p Phelix[expr].call stack
+    end
+  rescue Fancyline::Interrupt
+    puts
   end
 end
 
