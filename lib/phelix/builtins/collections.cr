@@ -1,85 +1,75 @@
 class Phelix
   # vectorize the top N elements of the stack
   # [ e1 ... en N ] => [ [e1 ... en] ]
-  defb "->vec" {
-    n = get Num
+  dbi "->vec", Num do |n|
     arity n
     s << s.pop n.to_i
-  }
+  end
 
-  defb "nth" { arity 2
-    v, n = get Vec, Num
+  dbi "nth", Vec, Num do |v, n|
     if n >= v.size || n < -v.size
       raise "index #{n} out of bounds for nth"
     end
     s << v[n]
-  }
+  end
 
-  defb "pop" { arity 1
-    s << get(Vec).pop
-  }
+  dbi "pop", Vec do |v|
+    s << v.pop
+  end
 
-  defb "\\" { arity 1
-    get(Vec).each { |e| s << e }
-  }
+  dbi "\\", Vec do |v|
+    v.each { |e| s << e }
+  end
 
   # mapify the top 2N elements of the stack
   # [ k1 v1 ... kn vn N ] => [ {k1 v1 ... kn vn} ]
-  defb "->map" {
-    m = Map.new false
-    n = get Num
+  dbi "->map", Num do |n|
     arity n * 2
+    m = Map.new false
     n.times {
       k, v = s.pop 2
       m[k] = v
     }
     s << m
-  }
+  end
 
-  defb "get" { arity 2
-    m, k = get Map, Val
+  dbi "get", Map, Val do |m, k|
     begin
       s << m[k]
     rescue KeyError
       raise "no such key '#{k}' for get"
     end
-  }
+  end
 
-  defb "put" { arity 3
-    m, k, v = get Map, Val, Val
+  dbi "put", Map, Val, Val do |m, k, v|
     m[k] = v
     s << m
-  }
+  end
 
-  defb "invert" { arity 1
-    s << get(Map).invert
-  }
+  dbi "invert", Map do |m|
+    s << m.invert
+  end
 
-  defb "merge" { arity 2
-    a, b = get Map, Map
+  dbi "merge", Map, Map do |a, b|
     s << a.merge b
-  }
+  end
 
-  defb "<<" { arity 2
-    vec, v = get Vec, Val
+  dbi "<<", Vec, Val do |vec, v|
     s << (vec << v)
-  }
+  end
 
-  defb ">>" { arity 2
-    v, vec = get Val, Vec
+  dbi ">>", Val, Vec do |v, vec|
     s << (vec << v)
-  }
+  end
 
-  defb "in" { arity 2
-    needle, haystack = get Val, Str | Vec
+  dbi "in", Val, Str | Vec do |needle, haystack|
     s << case haystack
          when Str; haystack.includes? needle.as Str
          else haystack.includes? needle
          end
-  }
+  end
 
-  defb "sort" { arity 1
-    vec = get Vec
+  dbi "sort", Vec do |vec|
     tmp = Vec.new vec.size
 
     if vec.all? &.class.== Str
@@ -91,49 +81,43 @@ class Phelix
     end
 
     s << tmp
-  }
+  end
 
-  defb "map" { arity 2
-    vec, fn = get Vec, Fun
+  dbi "map", Vec, Fun do |vec, fn|
     s << vec.map { |e| fn.call(s << e).pop.as Val }
-  }
+  end
 
-  defb "select" { arity 2
-    vec, fn = get Vec, Fun
+  dbi "select", Vec, Fun do |vec, fn|
     s << vec.select { |e| fn.call(s << e).pop.as Val }
-  }
+  end
 
-  defb "reject" { arity 2
-    vec, fn = get Vec, Fun
+  dbi "reject", Vec, Fun do |vec, fn|
     s << vec.reject { |e| fn.call(s << e).pop.as Val }
-  }
+  end
 
-  defb "maxby" { arity 2
-    vec, fn = get Vec, Fun
+  dbi "maxby", Vec, Fun do |vec, fn|
     s << vec.max_by { |e| fn.call(s << e).pop.as Num }
-  }
+  end
 
-  defb "zip" { arity 2
-    a, b = get Vec, Vec
+  dbi "zip", Vec, Vec do |a, b|
     raise "(zip) length mismatch" unless a.size == b.size
 
     tmp = Vec.new a.size
     a.zip(b) { |c, d| tmp << [c.as Val, d.as Val] }
     s << tmp
-  }
+  end
 
-  defb "uniq" { arity 1
-    s << get(Vec).to_set.map &.as Val
-  }
+  dbi "uniq", Vec do |v|
+    s << v.to_set.map &.as Val
+  end
 
-  defb "rev" { arity 1
-    s << get(Str | Vec).reverse
-  }
+  dbi "rev", Str | Vec do |val|
+    s << val.reverse
+  end
 
-  defb "v*" { arity 2
-    vec, n = get Vec, Num
+  dbi "v*", Vec, Num do |vec, n|
     tmp = Vec.new
     n.times { tmp.concat vec }
     s << tmp
-  }
+  end
 end

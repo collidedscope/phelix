@@ -1,21 +1,21 @@
 class Phelix
-  defb "fun?" { arity 1
-    s << (get(Val).class == Fun)
-  }
+  dbi "fun?", Val do |val|
+    s << (val.class == Fun)
+  end
 
-  defb "map?" { arity 1
-    s << (get(Val).class == Map)
-  }
+  dbi "map?", Val do |val|
+    s << (val.class == Map)
+  end
 
-  defb "num?" { arity 1
-    s << (get(Val).class == Num)
-  }
+  dbi "num?", Val do |val|
+    s << (val.class == Num)
+  end
 
-  defb "str?" { arity 1
-    s << (get(Val).class == Str)
-  }
+  dbi "str?", Val do |val|
+    s << (val.class == Str)
+  end
 
-  defb "vec?" { arity 1
-    s << (get(Val).class == Vec)
-  }
+  dbi "vec?", Val do |val|
+    s << (val.class == Vec)
+  end
 end

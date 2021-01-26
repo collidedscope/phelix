@@ -1,9 +1,9 @@
 class Phelix
-  defb "even?" { arity 1
-    s << get(Num).even?
-  }
+  dbi "even?", Num do |n|
+    s << n.even?
+  end
 
-  defb "odd?" { arity 1
-    s << get(Num).odd?
-  }
+  dbi "odd?", Num do |n|
+    s << n.odd?
+  end
 end

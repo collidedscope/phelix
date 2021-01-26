@@ -1,6 +1,6 @@
 class Phelix
   macro bin_op(op)
-    defb {{op.id.stringify[0..0]}} {
+    dbi {{op.id.stringify[0..0]}} do
       case a = s.pop
       when Vec
         s << a.reduce { |m, n|
@@ -11,11 +11,11 @@ class Phelix
       else
         abort "can't #{{{op}}} your #{s}"
       end
-    }
+    end
   end
 
   macro chain_op(op)
-    defb {{op.id.stringify[0..0]}} {
+    dbi {{op.id.stringify[0..0]}} do
       case a = s.pop
       when Vec
         s << a.each_cons(2).all? { |(m, n)|
@@ -28,7 +28,7 @@ class Phelix
       else
         abort "can't #{{{op}}} your #{s}"
       end
-    }
+    end
   end
 
   # pops the top two values and pushes their sum unless the top value is a

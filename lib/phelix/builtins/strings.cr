@@ -1,33 +1,31 @@
 class Phelix
-  defb "s/up" { arity 1
-    s << get(Str).upcase
-  }
+  dbi "s/up", Str do |str|
+    s << str.upcase
+  end
 
-  defb "s/dn" { arity 1
-    s << get(Str).downcase
-  }
+  dbi "s/dn", Str do |str|
+    s << str.downcase
+  end
 
-  defb "s/split" { arity 2
-    t, d = get Str, Str
+  dbi "s/split", Str, Str do |str, delim|
     o = Vec.new
-    t.split(d).each { |v| o << v }
+    str.split(delim) { |v| o << v }
     s << o
-  }
+  end
 
-  defb "s/slice" { arity 3
-    t, b, e = get Str, Num, Num
-    s << t[b..e]
-  }
+  dbi "s/slice", Str, Num, Num do |str, i, j|
+    s << str[i..j]
+  end
 
-  defb "s/bytes" { arity 1
-    s << get(Str).bytes.map &.to_big_i.as Val
-  }
+  dbi "s/bytes", Str do |str|
+    s << str.bytes.map &.to_big_i.as Val
+  end
 
-  defb "s/chars" { arity 1
-    s << get(Str).chars.map &.to_s.as Val
-  }
+  dbi "s/chars", Str do |str|
+    s << str.chars.map &.to_s.as Val
+  end
 
-  defb "chr" { arity 1
-    s << get(Num).to_i.chr.to_s
-  }
+  dbi "chr", Num do |n|
+    s << n.to_i.chr.to_s
+  end
 end

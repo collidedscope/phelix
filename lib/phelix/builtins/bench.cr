@@ -1,7 +1,7 @@
 class Phelix
   @@bench_warn = true
 
-  defb "bench" { arity 1
+  dbi "bench", Fun do |fn|
     {% unless flag? :release %}
       if @@bench_warn
         STDERR.puts Err.new "benchmarking with unoptimized interpreter"
@@ -10,7 +10,6 @@ class Phelix
     {% end %}
 
     n = 10
-    fn = get Fun
     ts = [] of Time::Span
     n.times { ts << Time.measure { fn.call s.dup } }
 
@@ -22,5 +21,5 @@ class Phelix
     puts "  min: #{min.total_milliseconds} ms"
     puts "  max: #{max.total_milliseconds} ms"
     puts "  avg: #{avg.total_milliseconds} ms"
-  }
+  end
 end

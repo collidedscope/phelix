@@ -17,38 +17,30 @@ class Phelix
 
   # applies the word at the top of the stack, preserving the second-top value
   # ( a f -- a )
-  defb "dip" { arity 2
-    fn = get Fun
-    top = s.pop
+  dbi "dip", Val, Fun do |top, fn|
     fn.call s
     s << top
-  }
+  end
 
   # partially applies f to a, leaving the new function at the top of the stack
   # ( a f -- f )
-  defb "curry" { arity 2
-    val, fn = get Val, Fun
+  dbi "curry", Val, Fun do |val, fn|
     base = fn.is_a?(Phelix) ? fn.@insns : [as_insn fn]
     s << new insns: [as_insn val] + base
-  }
+  end
 
   # takes two functions f and g and returns a function that calls f then g
   # ( f g -- (f g) )
-  defb "compose" { arity 2
-    f, g = get Fun, Fun
+  dbi "compose", Fun, Fun do |f, g|
     f = f.is_a?(Phelix) ? f.@insns : [as_insn f]
     g = g.is_a?(Phelix) ? g.@insns : [as_insn g]
     s << new insns: f + g
-  }
+  end
 
-  defb "eval" { arity 1
-    case v = s.pop
-    when Str
-      Phelix[v].call s
-    when Vec
-      new(insns: v.map &->as_insn(Val)).call s
-    else
-      raise "expected Str | Vec for eval, got #{v.inspect}"
+  dbi "eval", Str | Vec do |val|
+    case val
+    when Str; Phelix[val].call s
+    else new(insns: val.map &->as_insn(Val)).call s
     end
-  }
+  end
 end

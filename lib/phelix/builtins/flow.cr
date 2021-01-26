@@ -1,11 +1,10 @@
 class Phelix
-  defb "if" { arity 3
-    v, yes, no = get Val, Fun, Fun
-    (v ? yes : no).call s
-  }
+  dbi "if", Val, Fun, Fun do |val, yes, no|
+    (val ? yes : no).call s
+  end
 
-  defb "cond" { arity 1
-    get(Vec).each_slice 2 do |arm|
+  dbi "cond", Vec do |vec|
+    vec.each_slice 2 do |arm|
       if arm[1]?
         cond, fn = arm.map &.as Fun
         break fn.call s if cond.call(s.dup).last
@@ -13,42 +12,37 @@ class Phelix
         break arm[0].as(Fun).call s
       end
     end
-  }
+  end
 
-  defb "while" { arity 2
-    test, body = get Fun, Fun
+  dbi "while", Fun, Fun do |test, body|
     while test.call(s).pop
       s.replace body.call(s)
     end
-  }
+  end
 
-  defb "until" { arity 2
-    test, body = get Fun, Fun
+  dbi "until", Fun, Fun do |test, body|
     until test.call(s).pop
       s.replace body.call(s)
     end
-  }
+  end
 
-  defb "times" { arity 2
-    fn, n = get Fun, Num
+  dbi "times", Fun, Num do |fn, n|
     n.times { fn.call s }
-  }
+  end
 
-  defb "each" { arity 2
-    vec, fn = get Vec, Fun
+  dbi "each", Vec, Fun do |vec, fn|
     vec.each { |e| fn.call s << e }
-  }
+  end
 
-  defb "each/i" { arity 2
-    vec, fn = get Vec, Fun
+  dbi "each/i", Vec, Fun do |vec, fn|
     vec.each_with_index { |e, i| fn.call s << i.to_big_i << e }
-  }
+  end
 
-  defb "call" { arity 1
-    get(Fun).call s
-  }
+  dbi "call", Fun do |fn|
+    fn.call s
+  end
 
-  defb "exit" {
+  dbi "exit" {
     exit
   }
 end

@@ -1,26 +1,20 @@
 class Phelix
   # pops the top of the stack and displays it in a user-friendly way
-  defb "." { arity 1
-    p s.pop
-  }
+  dbi ".", Val do |val|
+    p val
+  end
 
   # displays the entire stack (non-destructive)
-  defb "," {
+  dbi "," {
     p s
   }
 
-  defb "len" { arity 1
-    case v = s.pop
-    when Vec, Str
-      s << v.size.to_big_i
-    else
-      raise "expected Str | Vec for len, got #{v.inspect}"
-    end
-  }
+  dbi "len", (Map | Str | Vec) do |val|
+    s << val.size.to_big_i
+  end
 
   # range [a b] => [a a+1 ... b]
-  defb ".." { arity 2
-    m, n = get Num, Num
+  dbi "..", Num, Num do |m, n|
     tmp = Vec.new (m - n).abs + 1
     if m < n
       m.upto(n) { |e| tmp << e }
@@ -28,84 +22,81 @@ class Phelix
       m.downto(n) { |e| tmp << e }
     end
     s << tmp
-  }
+  end
 
-  defb "++" { arity 2
-    a, b = get Str | Vec, Str | Vec
+  dbi "++", Str | Vec, Str | Vec do |a, b|
     case a
     when Str
       s << a.as Str + b.as Str
     else
       s << a.as Vec + b.as Vec
     end
-  }
+  end
 
-  defb "getb" {
+  dbi "getb" do
     s << (STDIN.read_byte || -1).to_big_i
-  }
+  end
 
-  defb "getc" {
+  dbi "getc" do
     s << ((c = STDIN.read_char) ? c.to_s : false)
-  }
+  end
 
-  defb "gets" {
+  dbi "gets" do
     if t = gets
       s << t
     else
       s << false
     end
-  }
+  end
 
-  defb "puts" { arity 1
-    puts s.pop
-  }
+  dbi "puts", Val do |val|
+    puts val
+  end
 
-  defb "print" { arity 1
-    print s.pop
-  }
+  dbi "print", Val do |val|
+    print val
+  end
 
-  defb "argv" {
+  dbi "argv" do
     s << ARGV.map &.as Val
-  }
+  end
 
-  defb "f/read" { arity 1
-    s << File.read get Str
-  }
+  dbi "f/read", Str do |path|
+    s << File.read path
+  end
 
-  defb "rand" { arity 1
-    s << rand get Num
-  }
+  dbi "rand", Num do |n|
+    s << rand n
+  end
 
-  defb "<-" { arity 1
-    scope = @@scope.dup
-    vars = get Vec
+  dbi "<-", Vec do |vars|
     arity vars.size
+    scope = @@scope.dup
 
     vars.reverse_each do |id|
       @@locals[scope] ||= {} of String => Val
       @@locals[scope][id.as Str] = s.pop
     end
-  }
+  end
 
   # removes all errors from the stack
-  defb "e" {
+  dbi "e" do
     s.reject! Err
-  }
+  end
 
-  defb "source" { arity 1
-    fn = get Fun
+  dbi "source", Fun do |fn|
     return s << @@sources[env.key_for fn] if fn.is_a? Proc
 
     s << fn.@insns.map { |i|
       (i.t == Type::Word ? env.fetch(i.v, i.v) : i.v).as Val
     }
-  }
+  end
 
-  defb "num->str" { arity 1
-    s << get(Num).to_s
-  }
+  dbi "num->str", Num do |n|
+    s << n.to_s
+  end
 
-  defb "str->num" { arity 1
-    s << get(Str).to_big_i
-  }
+  dbi "str->num", Str do |str|
+    s << str.to_big_i
+  end
 end
