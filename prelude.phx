@@ -41,6 +41,7 @@ roll: rotd swap ;
 
 forever: 'true swap while ;
 
+if*: pick 'drop '2nip if call ;
 unless: swap if ;
 when: () if ;
 when*: over 'call '2drop if ;
