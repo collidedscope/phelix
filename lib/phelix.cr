@@ -170,7 +170,6 @@ class Phelix
     BigInt => :Num,
     Array(Val) => :Vec,
     Hash(Val, Val) => :Map,
-    Proc => :Builtin
   }
 
   def self.alias_for(type)
