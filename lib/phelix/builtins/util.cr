@@ -81,7 +81,7 @@ class Phelix
   end
 
   dbi "source", Fun do |fn|
-    return s << @@sources[env.key_for fn] if fn.is_a? Proc
+    return s << sources[env.key_for fn] if fn.is_a? Proc
 
     s << fn.@insns.map { |i|
       (i.t == Type::Word ? env.fetch(i.v, i.v) : i.v).as Val

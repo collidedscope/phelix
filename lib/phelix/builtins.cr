@@ -43,16 +43,17 @@ class Phelix
     }
   end
 
-  @@docs = {} of String => {String, Int32}
-  @@sources = {} of String => String
+  class_getter \
+    docs = {} of String => {String, Int32},
+    sources = {} of String => String
 
   macro dbi(word, *types, &body)
     {% if flag?(:ocs) %}
-      @@docs[{{word}}] = {__FILE__, __LINE__}
+      docs[{{word}}] = {__FILE__, __LINE__}
     {% elsif types.empty? %}
-      @@env[{{word}}] = -> (s: Vec) { -> {{body}}.call; s }
+      env[{{word}}] = -> (s: Vec) { -> {{body}}.call; s }
     {% else %}
-      @@env[{{word}}] = -> (s: Vec) {
+      env[{{word}}] = -> (s: Vec) {
         arity {{types.size}}
         vals = s.pop {{types.size}}
         Proc({{*types}}, Nil).new {{body}}.call *{
@@ -63,7 +64,7 @@ class Phelix
         s
       }
     {% end %}
-    @@sources[{{word}}] = {{types.stringify}} + ' ' + {{body.stringify}}
+    sources[{{word}}] = {{types.stringify}} + ' ' + {{body.stringify}}
   end
 end
 

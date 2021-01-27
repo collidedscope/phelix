@@ -1,7 +1,7 @@
 class Phelix
   def self.as_insn(val)
     # the magic sauce that lets us treat builtins as ordinary values
-    return Insn.new Type::Word, @@env.key_for val if val.is_a? Proc
+    return Insn.new Type::Word, env.key_for val if val.is_a? Proc
 
     type = case val
     when Fun; Type::Fun

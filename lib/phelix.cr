@@ -18,11 +18,11 @@ class Phelix
   record Insn, t : Type, v : Val
 
   @@now = "main"
-  @@env = {} of String => Fun
   @@scope = [] of String
   @@locals = {} of Array(String) => Hash(String, Val)
   @@strings = [] of String
   @@fatal = true
+  class_getter env = {} of String => Fun
 
   def initialize(@tokens = [] of String, @insns = [] of Insn)
     @closed = {} of String => Val
@@ -158,10 +158,6 @@ class Phelix
 
   def self.[](code)
     new tokenize code
-  end
-
-  def self.env
-    @@env
   end
 
   ALIASES = {
