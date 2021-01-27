@@ -42,11 +42,7 @@ class Phelix
   end
 
   dbi "gets" do
-    if t = gets
-      s << t
-    else
-      s << false
-    end
+    s << (gets || false)
   end
 
   dbi "puts", Val do |val|
