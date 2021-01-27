@@ -6,12 +6,14 @@ require "phelix/core_ext/*"
 class Phelix
   alias Num = BigInt
   alias Str = String
-  alias Val = Bool | Fun | Map | Num | Str | Vec | Err
+  alias Val = Bool | Char| Fun | Map | Num | Str | Vec | Err
   alias Vec = Array(Val)
   alias Map = Hash(Val, Val)
   alias Fun = self | (Vec -> Vec)
 
-  enum Type; Fun; Map; Num; Str; Sym; Vec; Word end
+  enum Type
+    Char; Fun; Map; Num; Str; Sym; Vec; Word
+  end
 
   record Insn, t : Type, v : Val
 
@@ -54,6 +56,8 @@ class Phelix
         {Type::Str, @@strings.shift}
       when tok[0] == '\''
         {Type::Sym, tok.lchop}
+      when tok[0] == '#'
+        {Type::Char, tok[1]}
       when tok == "("
         {Type::Fun, find ")", "("}
       when tok == "["
@@ -78,7 +82,7 @@ class Phelix
       insn.v.as(Phelix).close if insn.v.is_a? Phelix
 
       case insn.t
-      when Type::Num, Type::Str, Type::Fun
+      when Type::Num, Type::Str, Type::Char, Type::Fun
         stack << insn.v
       when Type::Map, Type::Vec
         stack << insn.v.dup
@@ -146,7 +150,7 @@ class Phelix
 
   def self.tokenize(src)
     src
-      .gsub(/#.*/, "") # strip comments
+      .gsub(/# .*/, "") # strip comments
       .gsub(/"([^"]*)"/) { @@strings << $1; '\0' } # carve out strings
       .gsub(/[;)(}{\][]/, " \\0 ") # padding to simplify parsing
       .split
