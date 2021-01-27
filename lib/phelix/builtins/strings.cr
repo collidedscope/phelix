@@ -26,6 +26,6 @@ class Phelix
   end
 
   dbi "chr", Num do |n|
-    s << n.to_i.chr.to_s
+    s << n.to_i.chr
   end
 end

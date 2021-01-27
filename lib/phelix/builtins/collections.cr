@@ -6,7 +6,7 @@ class Phelix
     s << s.pop n.to_i
   end
 
-  dbi "nth", Vec, Num do |v, n|
+  dbi "nth", Str | Vec, Num do |v, n|
     if n >= v.size || n < -v.size
       raise "index #{n} out of bounds for nth"
     end
