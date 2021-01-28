@@ -45,6 +45,8 @@ class Phelix
     Phelix.new fn
   end
 
+  @infix : String?
+
   def parse
     while tok = @tokens.shift?
       next @@env[tok.rchop] = find ";", /:$/ if tok[-1] == ':'
@@ -72,7 +74,13 @@ class Phelix
         vec.each_slice 2 { |(k, v)| m[k] = v }
         {Type::Map, m}
       else
+        next if @infix = tok[/<(.+)>/, 1]?
         {Type::Word, tok}
+      end
+
+      if fn = @infix
+        @infix = nil
+        @insns << Insn.new Type::Word, fn
       end
     end
   end
