@@ -34,15 +34,6 @@ class Phelix
     check s.pop, {{type}}
   end
 
-  macro get(*types)
-    vals = s.pop {{types.size}}
-    {
-      {% for t in types %}
-        check(vals.shift, {{t}}),
-      {% end %}
-    }
-  end
-
   class_getter \
     docs = {} of String => {String, Int32},
     sources = {} of String => String
