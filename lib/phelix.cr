@@ -74,7 +74,9 @@ class Phelix
         vec.each_slice 2 { |(k, v)| m[k] = v }
         {Type::Map, m}
       else
-        next if @infix = tok[/<(.+)>/, 1]?
+        if fn = tok[/<(.+)>/, 1]?
+          next @infix = fn
+        end
         {Type::Word, tok}
       end
 
