@@ -21,8 +21,7 @@ class Phelix
   @@scope = [] of String
   @@locals = {} of Array(String) => Hash(String, Val)
   @@strings = [] of String
-  @@fatal = true
-  class_getter env = {} of String => Fun
+  class_getter env = {} of String => Fun, fatal = true
 
   def initialize(@tokens = [] of String, @insns = [] of Insn)
     @closed = {} of String => Val
