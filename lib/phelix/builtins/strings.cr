@@ -22,11 +22,11 @@ class Phelix
   end
 
   dbi "s/bytes", Str do |str|
-    s << str.bytes.map &.to_big_i
+    s << str.bytes.map &.to_big_i.as Val
   end
 
   dbi "s/chars", Str do |str|
-    s << str.chars
+    s << str.chars.map &.as Val
   end
 
   dbi "chr", Num do |n|
