@@ -13,6 +13,13 @@ class Phelix
     s << v[n]
   end
 
+  dbi "nth", Num, Str | Vec do |n, v|
+    if n >= v.size || n < -v.size
+      raise "index #{n} out of bounds for nth"
+    end
+    s << v[n]
+  end
+
   dbi "pop", Vec do |v|
     s << v.pop
   end
@@ -81,7 +88,7 @@ class Phelix
     elsif vec.all? &.class.== Num
       vec.map(&.as Num).sort.each { |e| tmp << e }
     else
-      raise "can't sort heterogeneous array"
+      raise "can't sort heterogeneous vector"
     end
 
     s << tmp
