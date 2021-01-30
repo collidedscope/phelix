@@ -62,7 +62,7 @@ class Phelix
       when tok[0] == '\''
         {Type::Sym, tok.lchop}
       when tok[0] == '#'
-        {Type::Char, tok[1]}
+        {Type::Char, Phelix.parse_char tok}
       when tok == "("
         {Type::Fun, find ")", "("}
       when tok == "["
@@ -170,6 +170,21 @@ class Phelix
       .gsub(/`([^`]+)`/) { @@cmds << $1; '\a' } # carve out commands
       .gsub(/[;)(}{\][]/, " \\0 ") # padding to simplify parsing
       .split
+  end
+
+  def self.parse_char(tok)
+    return tok[1] if tok[1] != '\\'
+
+    if c = tok[2]?
+      case c
+      when 'a'; '\a' when 'b'; '\b' when 'e'; '\e' when 'f'; '\f'
+      when 'n'; '\n' when 'r'; '\r' when 't'; '\t' when 'v'; '\v'
+      when '\\'; '\\'
+      else c
+      end
+    else
+      abort "unterminated character literal"
+    end
   end
 
   def self.[](code)
