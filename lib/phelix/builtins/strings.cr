@@ -13,6 +13,10 @@ class Phelix
     s << o
   end
 
+  dbi "s/join", Vec, Char | Str do |v, sep|
+    s << v.join sep
+  end
+
   dbi "s/slice", Str, Num, Num do |str, i, j|
     s << str[i..j]
   end
