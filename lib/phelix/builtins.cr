@@ -41,7 +41,7 @@ class Phelix
   class Dispatch
     alias Type = (Array(Phelix::Val) | Map | Str).class | (Vec | Str).class |
       Num.class | Map.class | Fun.class | Val.class | Str.class | Vec.class |
-      Char.class
+      Char.class | (Char | Str).class
     alias Sig = Array(Type)
 
     class_getter table = {} of String => Hash(Sig, Fun)

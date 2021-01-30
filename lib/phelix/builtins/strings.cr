@@ -7,7 +7,7 @@ class Phelix
     s << str.downcase
   end
 
-  dbi "s/split", Str, Str do |str, delim|
+  dbi "s/split", Str, Char | Str do |str, delim|
     o = Vec.new
     str.split(delim) { |v| o << v }
     s << o
