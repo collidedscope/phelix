@@ -1,6 +1,4 @@
 class Phelix
-  CMP = [Num, Str]
-
   macro bin_op(op)
     dbi {{op[0..0]}}, Num, Num do |a, b|
       s << a {{op.id}} b
@@ -10,6 +8,8 @@ class Phelix
       s << v.reduce { |a, b| a.as(Num) {{op.id}} b.as(Num) }
     end
   end
+
+  CMP = [Char, Num, Str]
 
   macro chain_op(op)
     {% for t in CMP %}

@@ -8,7 +8,7 @@ class Phelix
     end
   end
 
-  TYPES = [Num, Str, Val, Vec, Map, Fun]
+  TYPES = [Char, Num, Str, Val, Vec, Map, Fun]
 
   macro fail(wanted, got)
     type = TYPES.select(&.<= {{wanted}}).map { |t| alias_for t }.join " | "
@@ -40,7 +40,8 @@ class Phelix
 
   class Dispatch
     alias Type = (Array(Phelix::Val) | Map | Str).class | (Vec | Str).class |
-      Num.class | Map.class | Fun.class | Val.class | Str.class | Vec.class
+      Num.class | Map.class | Fun.class | Val.class | Str.class | Vec.class |
+      Char.class
     alias Sig = Array(Type)
 
     class_getter table = {} of String => Hash(Sig, Fun)
