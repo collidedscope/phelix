@@ -13,7 +13,7 @@ class Phelix
   alias Fun = self | (Vec -> Vec)
 
   enum Type
-    Char; Fun; Map; Num; Str; Sym; Vec; Word
+    Char; Cmd; Fun; Map; Num; Str; Sym; Vec; Word
   end
 
   record Insn, t : Type, v : Val
@@ -22,6 +22,8 @@ class Phelix
   @@scope = [] of String
   @@locals = {} of Array(String) => Hash(String, Val)
   @@strings = [] of String
+  @@cmds = [] of String
+
   class_getter env = {} of String => Fun, fatal = true
 
   def initialize(@tokens = [] of String, @insns = [] of Insn)
@@ -56,6 +58,8 @@ class Phelix
         {Type::Num, tok.to_big_i}
       when tok == "\0"
         {Type::Str, @@strings.shift}
+      when tok == "\a"
+        {Type::Cmd, @@cmds.shift}
       when tok[0] == '\''
         {Type::Sym, tok.lchop}
       when tok[0] == '#'
@@ -98,6 +102,8 @@ class Phelix
         stack << insn.v.dup
       when Type::Sym
         stack << @@env.fetch word = insn.v, word
+      when Type::Cmd
+        stack << `#{insn.v}`
       when Type::Word
         word = insn.v.as String
         if fn = @@env[word]?
@@ -162,6 +168,7 @@ class Phelix
     src
       .gsub(/# .*/, "") # strip comments
       .gsub(/"([^"]*)"/) { @@strings << $1; '\0' } # carve out strings
+      .gsub(/`([^`]+)`/) { @@cmds << $1; '\a' } # carve out commands
       .gsub(/[;)(}{\][]/, " \\0 ") # padding to simplify parsing
       .split
   end
