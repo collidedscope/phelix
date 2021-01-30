@@ -99,11 +99,11 @@ class Phelix
   end
 
   dbi "select", Vec, Fun do |vec, fn|
-    s << vec.select { |e| fn.call(s << e).pop.as Val }
+    s << vec.select { |e| fn.call(s << e).pop }
   end
 
   dbi "reject", Vec, Fun do |vec, fn|
-    s << vec.reject { |e| fn.call(s << e).pop.as Val }
+    s << vec.reject { |e| fn.call(s << e).pop }
   end
 
   dbi "maxby", Vec, Fun do |vec, fn|
