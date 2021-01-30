@@ -58,7 +58,7 @@ accumulate: [] ['v] <-
   (over v >> drop) prepose reduce v ;
 produce: [] ['v] <-
   (v >> drop) compose while v ;
-intersperse: []
+interpose: []
   rot (<< over <<) each pop* drop nip ;
 
 min: 2dup < 'drop 'nip if ;
