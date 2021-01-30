@@ -1,7 +1,9 @@
 require "fancyline"
 
-# TODO: Follow XDG specification.
-HISTFILE = "history"
+CACHE = ENV["XDG_CACHE_HOME"]? || File.join ENV["HOME"], ".cache"
+HISTFILE = File.join CACHE, "phelix", "phelix_history"
+
+Dir.mkdir_p File.dirname HISTFILE
 File.touch HISTFILE
 
 class Phelix
