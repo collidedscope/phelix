@@ -7,9 +7,6 @@ xor: eq not ;
 and: () (drop false) if ;
 or: dup 'nip 'drop if ;
 
-<=: > not ;
->=: < not ;
-
 2drop: drop drop ;
 
 keep: over 'call dip ;
