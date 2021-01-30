@@ -50,8 +50,7 @@ class Phelix
 
     def call(s)
       if match = @@table[@word].find { |types, _|
-        s.size >= types.size &&
-          types.zip(s.last types.size).all? { |a, b| a === b }
+        types.zip?(s.last types.size).all? { |a, b| a === b }
       }
         match[1].call s
       else
