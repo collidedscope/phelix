@@ -106,6 +106,10 @@ class Phelix
     s << vec.reject { |e| fn.call(s << e).pop }
   end
 
+  dbi "count", Vec, Fun do |vec, fn|
+    s << vec.count { |e| fn.call(s << e).pop }.to_big_i
+  end
+
   dbi "maxby", Vec, Fun do |vec, fn|
     s << vec.max_by { |e| fn.call(s << e).pop.as Num }
   end
