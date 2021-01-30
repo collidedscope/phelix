@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+PROG = 'phelix'
+abort "No #{PROG} binary found; did you run `make`?" unless File.exists? PROG
+
+path_dirs = ENV['PATH'].split ?:
+path_dirs.select! { |dir|
+  File.writable?(dir) && (path_dirs - [dir]).none? { |sub| dir[sub] }
+}
+abort "Can't install!
+  Couldn't find any writable directories in your $PATH" if path_dirs.empty?
+
+path_dirs.each.with_index(1) do |dir, i|
+  puts "#{i}.	#{dir}"
+end
+
+print "\nTo which of these directories would you like to install #{PROG}? "
+
+begin
+  n = gets.to_i
+  if (1..path_dirs.size) === n
+    dir = path_dirs[n - 1]
+    if File.identical? PROG, File.join(dir, PROG)
+      abort "#{PROG} already exists in #{dir}; aborting"
+    end
+
+    require 'fileutils'
+    FileUtils.cp PROG, dir
+    puts "#{PROG} installed!"
+  else
+    abort 'invalid selection; aborting'
+  end
+rescue Interrupt
+  puts
+end
