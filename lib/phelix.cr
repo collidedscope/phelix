@@ -6,8 +6,9 @@ require "phelix/core_ext/*"
 class Phelix
   alias Num = BigInt
   alias Str = String
-  alias Val = Bool | Char| Fun | Map | Num | Str | Vec | Err
+  alias Val = Bool | Char| Fun | Map | Num | Str | Vec | Err | Vex
   alias Vec = Array(Val)
+  alias Vex = Array(Char) | Array(Num) | Array(Str)
   alias Map = Hash(Val, Val)
   alias Fun = self | (Vec -> Vec)
 

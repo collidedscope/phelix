@@ -54,7 +54,7 @@ class Phelix
   end
 
   dbi "argv" do
-    s << ARGV.map &.as Val
+    s << ARGV
   end
 
   dbi "f/read", Str do |path|
