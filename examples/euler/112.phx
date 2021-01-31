@@ -1,6 +1,4 @@
-asc: digits >= ;
-desc: digits <= ;
-bouncy: dup asc (drop false) (desc not) if ;
+bouncy: digits dup >= 'not (<= not) if ;
 
 0 1
   (2dup (100 *) dip / 99 <)
