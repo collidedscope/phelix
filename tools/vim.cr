@@ -1,8 +1,8 @@
 EXCLUDE = %w[
-  + - * / % , . << >> .. < = > <- []
+  + - * / % , . << >> .. <= < = > >= <- []
   true false if unless when when* cond
   sleep gets get put invert merge
-  while while* until times each each/i forever
+  while while* until times each each/i forever return
 ]
 
 def clean(words)
