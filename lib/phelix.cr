@@ -18,6 +18,7 @@ class Phelix
   record Insn, t : Type, v : Val
 
   @@now = "main"
+  @@ret = ""
   @@scope = [] of String
   @@locals = {} of Array(String) => Hash(String, Val)
   @@strings = [] of String
@@ -92,6 +93,7 @@ class Phelix
 
   def call(stack = Vec.new)
     @insns.each do |insn|
+      break @@ret = "" if @@ret == @@scope[0]?
       insn.v.as(Phelix).close if insn.v.is_a? Phelix
 
       case insn.t

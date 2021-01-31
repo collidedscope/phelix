@@ -46,7 +46,11 @@ class Phelix
     fn.call s
   end
 
-  dbi "exit" {
+  dbi "exit" do
     exit
-  }
+  end
+
+  dbi "return" do
+    @@ret = @@scope[0]
+  end
 end
