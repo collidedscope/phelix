@@ -95,4 +95,8 @@ class Phelix
   dbi "str->num", Str do |str|
     s << str.to_big_i
   end
+
+  dbi "sleep", Num do |n|
+    sleep n.milliseconds
+  end
 end
