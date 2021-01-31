@@ -1,0 +1,7 @@
+asc: digits >= ;
+desc: digits <= ;
+bouncy: dup asc (drop false) (desc not) if ;
+
+0 1
+  (2dup (100 *) dip / 99 <)
+  (+1 dup bouncy ('+1 dip) when) while .
