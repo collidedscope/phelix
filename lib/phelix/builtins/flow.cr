@@ -42,10 +42,6 @@ class Phelix
     vec.each_with_index { |e, i| fn.call s << i.to_big_i << e }
   end
 
-  dbi "call", Fun do |fn|
-    fn.call s
-  end
-
   dbi "exit" do
     exit
   end

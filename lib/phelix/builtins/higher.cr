@@ -15,6 +15,10 @@ class Phelix
     Insn.new type, val
   end
 
+  dbi "call", Fun do |fn|
+    fn.call s
+  end
+
   # applies the word at the top of the stack, preserving the second-top value
   # ( a f -- a )
   dbi "dip", Val, Fun do |top, fn|
