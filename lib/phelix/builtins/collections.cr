@@ -19,7 +19,7 @@ class Phelix
 
   dbi "in", Val, Str | Vec do |needle, haystack|
     s << case haystack
-         when Str; haystack.includes? needle.as Str
+         when Str; haystack.includes? needle.as Char | Str
          else haystack.includes? needle
          end
   end
