@@ -29,6 +29,10 @@ class Phelix
     s << str.chars.map &.as Val
   end
 
+  dbi "s/del", Str, Str do |str, d|
+    s << str.delete d
+  end
+
   dbi "chr", Num do |n|
     s << n.to_i.chr
   end
