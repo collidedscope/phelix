@@ -14,4 +14,5 @@ class Phelix
   bin_op("*")
   bin_op("/", ://)
   bin_op("%")
+  bin_op("**")
 end
