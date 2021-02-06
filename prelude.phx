@@ -22,7 +22,7 @@ bi@: dup bi* ;
 first: 0 nth ;
 last: -1 nth ;
 
-part: ['f] <- (f select) (f reject) bi ;
+part: 'select 'reject 2bi ;
 
 rotd: 'rot dip ;
 roll: rotd swap ;
