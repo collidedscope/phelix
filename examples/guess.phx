@@ -1,0 +1,18 @@
+100 ['N] <-
+
+play:
+  "Guess a number between 1 and " print
+  N dup num->str puts
+
+  rand 1
+  (dup 0?) (gets str->num pick -
+            [(0 >) ("lower" puts)
+             (0 <) ("higher" puts)] cond
+    nip) until drop
+
+  "You win! It was " print print
+  ". Go again?" puts
+
+  gets s/up 0 nth #Y = 'play when ;
+
+play
