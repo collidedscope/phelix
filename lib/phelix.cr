@@ -181,6 +181,7 @@ class Phelix
       case c
       when 'a'; '\a' when 'b'; '\b' when 'e'; '\e' when 'f'; '\f'
       when 'n'; '\n' when 'r'; '\r' when 't'; '\t' when 'v'; '\v'
+      when 'u'; tok[3..].to_i(16).chr
       when '\\'; '\\'
       else c
       end
