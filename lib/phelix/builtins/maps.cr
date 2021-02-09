@@ -31,4 +31,12 @@ class Phelix
   dbi "merge", Map, Map do |a, b|
     s << a.merge b
   end
+
+  dbi "mapkeys", Map, Fun do |m, fn|
+    s << m.transform_keys { |k| fn.call(s << k).pop.as Val }
+  end
+
+  dbi "mapvals", Map, Fun do |m, fn|
+    s << m.transform_values { |v| fn.call(s << v).pop.as Val }
+  end
 end
