@@ -11,6 +11,18 @@ class Phelix
     s << m
   end
 
+  dbi "keys", Map do |m|
+    tmp = [] of Val
+    m.each_key { |k| tmp << k }
+    s << tmp
+  end
+
+  dbi "vals", Map do |m|
+    tmp = [] of Val
+    m.each_value { |k| tmp << k }
+    s << tmp
+  end
+
   dbi "get", Map, Val do |m, k|
     begin
       s << m[k]
