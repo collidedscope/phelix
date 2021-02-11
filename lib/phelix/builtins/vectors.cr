@@ -77,4 +77,10 @@ class Phelix
     n.times { tmp.concat vec }
     s << tmp
   end
+
+  dbi "/i", Vec do |vec|
+    tmp = Vec.new
+    vec.each_with_index { |e, i| tmp << [e, i.to_big_i.as Val] }
+    s << tmp
+  end
 end
