@@ -19,7 +19,13 @@ class Phelix
 
   dbi "vals", Map do |m|
     tmp = [] of Val
-    m.each_value { |k| tmp << k }
+    m.each_value { |v| tmp << v }
+    s << tmp
+  end
+
+  dbi "pairs", Map do |m|
+    tmp = [] of Val
+    m.each { |k, v| tmp << [k.as Val, v.as Val] }
     s << tmp
   end
 
