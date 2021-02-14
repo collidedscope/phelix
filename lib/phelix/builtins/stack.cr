@@ -108,4 +108,10 @@ class Phelix
   dbi "clear" do
     s.clear
   end
+
+  dbi "grab", Num do |n|
+    ds = n.digits
+    arity ds.max
+    ds.reverse_each.with_index { |d, i| s << s[-d - i] }
+  end
 end
