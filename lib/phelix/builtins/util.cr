@@ -49,6 +49,14 @@ class Phelix
     s << str.to_big_i
   end
 
+  dbi "vec->str", Vec do |v|
+    raise "need bytes for vec->str" unless v.all? { |n|
+      (0..255) === n.as Num
+    }
+
+    s << String.new Bytes.new(v.size) { |i| v[i].as(Num).to_u8 }
+  end
+
   dbi "sleep", Num do |n|
     sleep n.milliseconds
   end
