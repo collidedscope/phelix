@@ -83,4 +83,8 @@ class Phelix
     vec.each_with_index { |e, i| tmp << [e, i.to_big_i.as Val] }
     s << tmp
   end
+
+  dbi "-", Vec, Val do |vec, v|
+    vec.delete v
+  end
 end
