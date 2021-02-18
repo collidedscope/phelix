@@ -8,9 +8,7 @@ class Phelix
   end
 
   dbi "s/split", Str, Char | Str do |str, delim|
-    o = Vec.new
-    str.split(delim) { |v| o << v }
-    s << o
+    s << str.split(delim).map &.as Val
   end
 
   dbi "s/join", Vec, Char | Str do |v, sep|
