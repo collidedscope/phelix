@@ -64,13 +64,13 @@ class Phelix
   end
 
   dbi "v*", Vec, Num do |vec, n|
-    tmp = Vec.new
+    tmp = Vec.new vec.size * n
     n.times { tmp.concat vec }
     s << tmp
   end
 
   dbi "/i", Vec do |vec|
-    tmp = Vec.new
+    tmp = Vec.new vec.size
     vec.each_with_index { |e, i| tmp << [e, i.to_big_i.as Val] }
     s << tmp
   end
