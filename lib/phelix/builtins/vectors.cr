@@ -40,25 +40,16 @@ class Phelix
     s << tmp
   end
 
-  dbi "map", Vec, Fun do |vec, fn|
-    s << vec.map { |e| fn.call(s << e).pop.as Val }
+  macro vecfun(name, body)
+    dbi {{name}}, Vec, Fun do |vec, fn| {{body}} end
+    dbi {{name}}, Fun, Vec do |fn, vec| {{body}} end
   end
 
-  dbi "select", Vec, Fun do |vec, fn|
-    s << vec.select { |e| fn.call(s << e).pop }
-  end
-
-  dbi "reject", Vec, Fun do |vec, fn|
-    s << vec.reject { |e| fn.call(s << e).pop }
-  end
-
-  dbi "count", Vec, Fun do |vec, fn|
-    s << vec.count { |e| fn.call(s << e).pop }.to_big_i
-  end
-
-  dbi "maxby", Vec, Fun do |vec, fn|
-    s << vec.max_by { |e| fn.call(s << e).pop.as Num }
-  end
+  vecfun "map",    s << vec.map    { |e| fn.call(s << e).pop.as Val }
+  vecfun "select", s << vec.select { |e| fn.call(s << e).pop }
+  vecfun "reject", s << vec.reject { |e| fn.call(s << e).pop }
+  vecfun "count",  s << vec.count  { |e| fn.call(s << e).pop }.to_big_i
+  vecfun "maxby",  s << vec.max_by { |e| fn.call(s << e).pop.as Num }
 
   dbi "zip", Vec, Vec do |a, b|
     raise "(zip) length mismatch" unless a.size == b.size
