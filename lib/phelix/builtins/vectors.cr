@@ -78,4 +78,12 @@ class Phelix
   dbi "-", Vec, Val do |vec, v|
     vec.delete v
   end
+
+  dbi "choose", Vec do |v|
+    s << v.sample
+  end
+
+  dbi "choose", Vec, Num do |v, n|
+    s << v.sample n
+  end
 end
